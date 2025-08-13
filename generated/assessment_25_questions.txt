@@ -102,11 +102,11 @@ $\frac{3}{8}+\frac{4}{7}=\frac{21+32}{56}=\frac{53}{56}$.
 @Order 6
 @option 100
 @option 200
-@@option 300
-@option 400
+@option 300
+@@option 400
 @option 500
 @explanation
-From the graph, the net increase appears to be 300 meters.
+Scenic lookout altitude − campsite altitude = 500 − 100 = 400 meters.
 @subject Quantitative Math
 @unit Data Analysis & Probability
 @topic Interpretation of Tables & Graphs

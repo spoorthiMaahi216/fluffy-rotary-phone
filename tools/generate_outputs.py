@@ -233,18 +233,18 @@ def build_25_questions_text() -> str:
 		subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents'
 	))
 
-	# 6 (graph difference; assumed 300)
+		# 6 (graph difference; corrected to 400)
 	add(render_question_block(
-		title="Altitude Difference from Graph",
-		description="Read altitude change from a time-altitude graph.",
-		question="Ilona hikes for 4 hours from a campsite to a scenic lookout. Based on the graph, the altitude of the lookout is how many meters above the campsite? (See image URL in the prompt.)",
-		instruction='Compute final altitude minus initial altitude.',
-		difficulty='moderate',
-		order=6,
-		options=['100', '200', '300', '400', '500'],
-		answer='300',
-		explanation='From the graph, the net increase appears to be 300 meters.',
-		subject='Quantitative Math', unit='Data Analysis & Probability', topic='Interpretation of Tables & Graphs'
+			title="Altitude Difference from Graph",
+			description="Read altitude change from a time-altitude graph.",
+			question="Ilona hikes for 4 hours from a campsite to a scenic lookout. Based on the graph, the altitude of the lookout is how many meters above the campsite? (See image URL in the prompt.)",
+			instruction='Compute final altitude minus initial altitude.',
+			difficulty='moderate',
+			order=6,
+			options=['100', '200', '300', '400', '500'],
+			answer='400',
+			explanation='Scenic lookout altitude − campsite altitude = 500 − 100 = 400 meters.',
+			subject='Quantitative Math', unit='Data Analysis & Probability', topic='Interpretation of Tables & Graphs'
 	))
 
 	# 7
@@ -675,8 +675,8 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 	B(title='Altitude Difference from Graph', description='Read altitude change from a time-altitude graph.',
 		question='Ilona hikes for 4 hours from a campsite to a scenic lookout. Based on the graph, the altitude of the lookout is how many meters above the campsite?',
 		instruction='Compute final altitude minus initial altitude.', difficulty='moderate', order=6,
-		options=['100', '200', '300', '400', '500'], answer='300',
-		explanation='From the graph, the net increase appears to be 300 meters.', subject='Quantitative Math', unit='Data Analysis & Probability', topic='Interpretation of Tables & Graphs',
+		options=['100', '200', '300', '400', '500'], answer='400',
+		explanation='Scenic lookout altitude − campsite altitude = 500 − 100 = 400 meters.', subject='Quantitative Math', unit='Data Analysis & Probability', topic='Interpretation of Tables & Graphs',
 		question_image_urls=[q6_graph], option_image_urls={})
 
 	# Q7
