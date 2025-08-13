@@ -790,9 +790,9 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 		'(E)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-05.jpg?height=264&width=264&top_left_y=2118&top_left_x=1321',
 	}
 	B(title='Card Flip Orientation', description='Reason about rotations and reflections after flipping a punched card.',
-		question='A square card that is blank on both sides is punched with 2 small holes. The top face is shown. If the card is turned face down, which orientation is NOT possible?', instruction='Consider reflections across the plane and allowable rotations.', difficulty='hard', order=21,
-		options=['(A)', '(B)', '(C)', '(D)', '(E)'], answer='(C)',
-		explanation='After a face-down flip, the pattern is a mirror image; only option (C) cannot occur under any rotation.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Transformations (Dilating a shape)',
+		question='A square card that is blank on both sides is punched with 2 small holes. The top face is shown. If the card is turned face down, which orientation is NOT possible?', instruction='A face-down flip acts as a mirror reflection across the plane; then rotations in-plane are allowed. Match hole positions accordingly.', difficulty='hard', order=21,
+		options=['(A)', '(B)', '(C)', '(D)', '(E)'], answer='(B)',
+		explanation='A pure face-down flip mirrors the pattern; option (B) shows only a 180° turn of the original without the mirror, which cannot be obtained by flip+rotation.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Transformations (Dilating a shape)',
 		question_image_urls=[q21_main], option_image_urls=q21_opts)
 
 	# Q22
