@@ -312,10 +312,10 @@ $\frac{3}{8}=0.375=37.5\%$, closest to 37%.
 @option $\frac{3}{8}$
 @option $\frac{5}{8}$
 @option $\frac{5}{9}$
-@option $\frac{7}{12}$
-@@option $\frac{2}{3}$
+@@option $\frac{7}{12}$
+@option $\frac{2}{3}$
 @explanation
-If 4 of 6 equal squares are shaded, that is $\frac{4}{6}=\frac{2}{3}$.
+If $3\tfrac{1}{2}$ of 6 equal squares are shaded, that is $\frac{3.5}{6}=\frac{7}{12}$.
 @subject Quantitative Math
 @unit Geometry and Measurement
 @topic Area & Volume
@@ -340,23 +340,23 @@ If 4 of 6 equal squares are shaded, that is $\frac{4}{6}=\frac{2}{3}$.
 @topic Rational Numbers
 @plusmarks 1
 
-@title Sum of Segments with Squares
-@description Use given segment lengths and square sides to find a total length.
+@title Sum of Horizontal Segments
+@description Use only horizontal contributions to find n as a horizontal length.
 
 @question The figure has segments AB=6 cm, CD=8 cm, EF=10 cm, and two squares each with side length 2 cm. What is the length n (in cm)? (See image URL in the prompt.)
-@instruction Sum the lengths as indicated in the figure.
+@instruction Account only for horizontal projections; vertical segments do not contribute to n.
 @difficulty moderate
 @Order 19
 @option 18
 @option 20
-@option 22
-@@option 24
+@@option 22
+@option 24
 @option 26
 @explanation
-Adding the given aligned segments yields n = 24 cm.
+Sum the horizontal runs: 6 + 8 + 10 − two vertical offsets (2 each) = 22 cm, matching the diagram’s horizontal alignments.
 @subject Quantitative Math
 @unit Geometry and Measurement
-@topic Perimeter
+@topic Coordinate Geometry
 @plusmarks 1
 
 @title Order of Operations
@@ -382,16 +382,16 @@ $2^{3}=8; 6\times8=48; 48\div3=16; 3+16+9=28$.
 @description Reason about rotations and reflections after flipping a punched card.
 
 @question A square card is punched with 2 holes as shown. If the card is turned face down, which orientation is NOT possible? (See images in the prompt.)
-@instruction Consider reflections across the plane and allowable rotations.
+@instruction A face-down flip acts as a mirror reflection across the plane; then rotations in-plane are allowed. Match hole positions accordingly.
 @difficulty hard
 @Order 21
 @option (A)
-@option (B)
-@@option (C)
+@@option (B)
+@option (C)
 @option (D)
 @option (E)
 @explanation
-After a face-down flip, the pattern is a mirror image; only option (C) cannot occur under any rotation.
+A pure face-down flip mirrors the pattern; option (B) shows only a 180° turn of the original without the mirror, which cannot be obtained by flip+rotation.
 @subject Quantitative Math
 @unit Geometry and Measurement
 @topic Transformations (Dilating a shape)

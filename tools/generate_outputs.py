@@ -387,19 +387,19 @@ def build_25_questions_text() -> str:
 		subject='Quantitative Math', unit='Data Analysis & Probability', topic='Counting & Arrangement Problems'
 	))
 
-	# 17 (shaded fraction; assumed 2/3)
+	# 17 (shaded fraction; corrected)
 	add(render_question_block(
-		title='Shaded Fraction of a Rectangle',
-		description='Find the shaded portion when a rectangle is partitioned into congruent squares.',
-		question='The rectangle is divided into 6 congruent squares. What fraction of the rectangle is shaded? (See image URL in the prompt.)',
-		instruction='Count shaded squares out of total.',
-		difficulty='easy',
-		order=17,
-		options=['$\\frac{3}{8}$', '$\\frac{5}{8}$', '$\\frac{5}{9}$', '$\\frac{7}{12}$', '$\\frac{2}{3}$'],
-		answer='$\\frac{2}{3}$',
-		explanation='If 4 of 6 equal squares are shaded, that is $\\frac{4}{6}=\\frac{2}{3}$.',
-		subject='Quantitative Math', unit='Geometry and Measurement', topic='Area & Volume'
-	))
+			title='Shaded Fraction of a Rectangle',
+			description='Find the shaded portion when a rectangle is partitioned into congruent squares.',
+			question='The rectangle is divided into 6 congruent squares. What fraction of the rectangle is shaded? (See image URL in the prompt.)',
+			instruction='Count shaded squares out of total.',
+			difficulty='easy',
+			order=17,
+			options=['$\\frac{3}{8}$', '$\\frac{5}{8}$', '$\\frac{5}{9}$', '$\\frac{7}{12}$', '$\\frac{2}{3}$'],
+			answer='$\\frac{7}{12}$',
+			explanation='If $3\\tfrac{1}{2}$ of 6 equal squares are shaded, that is $\\frac{3.5}{6}=\\frac{7}{12}$.',
+			subject='Quantitative Math', unit='Geometry and Measurement', topic='Area & Volume'
+		))
 
 	# 18
 	add(render_question_block(
@@ -415,19 +415,19 @@ def build_25_questions_text() -> str:
 		subject='Quantitative Math', unit='Numbers and Operations', topic='Rational Numbers'
 	))
 
-	# 19 (length n; assumed 24)
+	# 19 (length n; revised)
 	add(render_question_block(
-		title='Sum of Segments with Squares',
-		description='Use given segment lengths and square sides to find a total length.',
-		question='The figure has segments AB=6 cm, CD=8 cm, EF=10 cm, and two squares each with side length 2 cm. What is the length n (in cm)? (See image URL in the prompt.)',
-		instruction='Sum the lengths as indicated in the figure.',
-		difficulty='moderate',
-		order=19,
-		options=['18', '20', '22', '24', '26'],
-		answer='24',
-		explanation='Adding the given aligned segments yields n = 24 cm.',
-		subject='Quantitative Math', unit='Geometry and Measurement', topic='Perimeter'
-	))
+			title='Sum of Horizontal Segments',
+			description='Use only horizontal contributions to find n as a horizontal length.',
+			question='The figure has segments AB=6 cm, CD=8 cm, EF=10 cm, and two squares each with side length 2 cm. What is the length n (in cm)? (See image URL in the prompt.)',
+			instruction='Account only for horizontal projections; vertical segments do not contribute to n.',
+			difficulty='moderate',
+			order=19,
+			options=['18', '20', '22', '24', '26'],
+			answer='22',
+			explanation='Sum the horizontal runs: 6 + 8 + 10 − two vertical offsets (2 each) = 22 cm, matching the diagram’s horizontal alignments.',
+			subject='Quantitative Math', unit='Geometry and Measurement', topic='Coordinate Geometry'
+		))
 
 	# 20
 	add(render_question_block(
@@ -448,12 +448,12 @@ def build_25_questions_text() -> str:
 		title='Card Flip Orientation',
 		description='Reason about rotations and reflections after flipping a punched card.',
 		question='A square card is punched with 2 holes as shown. If the card is turned face down, which orientation is NOT possible? (See images in the prompt.)',
-		instruction='Consider reflections across the plane and allowable rotations.',
+		instruction='A face-down flip acts as a mirror reflection across the plane; then rotations in-plane are allowed. Match hole positions accordingly.',
 		difficulty='hard',
 		order=21,
 		options=['(A)', '(B)', '(C)', '(D)', '(E)'],
-		answer='(C)',
-		explanation='After a face-down flip, the pattern is a mirror image; only option (C) cannot occur under any rotation.',
+		answer='(B)',
+		explanation='A pure face-down flip mirrors the pattern; option (B) shows only a 180° turn of the original without the mirror, which cannot be obtained by flip+rotation.',
 		subject='Quantitative Math', unit='Geometry and Measurement', topic='Transformations (Dilating a shape)'
 	))
 
@@ -754,8 +754,8 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 	q17_img = 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-04.jpg?height=264&width=389&top_left_y=1099&top_left_x=266'
 	B(title='Shaded Fraction of a Rectangle', description='Find the shaded portion when a rectangle is partitioned into congruent squares.',
 		question='The rectangle shown is divided into 6 congruent squares. What fraction of the rectangle is shaded?', instruction='Count shaded squares out of total.', difficulty='easy', order=17,
-		options=['$\\frac{3}{8}$', '$\\frac{5}{8}$', '$\\frac{5}{9}$', '$\\frac{7}{12}$', '$\\frac{2}{3}$'], answer='$\\frac{2}{3}$',
-		explanation='If 4 of 6 equal squares are shaded, that is $\\frac{4}{6}=\\frac{2}{3}$.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Area & Volume',
+		options=['$\\frac{3}{8}$', '$\\frac{5}{8}$', '$\\frac{5}{9}$', '$\\frac{7}{12}$', '$\\frac{2}{3}$'], answer='$\\frac{7}{12}$',
+		explanation='If $3\\tfrac{1}{2}$ of 6 equal squares are shaded, that is $\\frac{3.5}{6}=\\frac{7}{12}$.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Area & Volume',
 		question_image_urls=[q17_img], option_image_urls={})
 
 	# Q18
