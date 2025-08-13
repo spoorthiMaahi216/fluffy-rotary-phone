@@ -159,6 +159,326 @@ def render_question_block(
 	return "\n".join(lines)
 
 
+# ---------------- Shadow questions (25 similar variants) ----------------
+
+def build_25_shadow_questions_text() -> str:
+	blocks: List[str] = []
+	add = blocks.append
+
+	# 1
+	add(render_question_block(
+		title='Solve Linear Equation (One-Step)',
+		description='Solve for n in a simple linear equation.',
+		question='If $n+7=12$, what is the value of $n$?',
+		instruction='Select the correct value of n.',
+		difficulty='easy', order=1,
+		options=['2', '4', '5', '7', '12'], answer='5',
+		explanation='Subtract 7 from both sides: $n = 12-7 = 5$.',
+		subject='Quantitative Math', unit='Algebra', topic='Interpreting Variables'
+	))
+
+	# 2
+	add(render_question_block(
+		title='Repeating Symbol Sequence',
+		description='Identify a term in a repeating sequence using modular arithmetic.',
+		question='A sequence repeats the symbols in order: Circle, Square, Triangle, Star. Which is the 12th symbol?',
+		instruction='Determine the cycle length and reduce the index modulo the cycle length.',
+		difficulty='moderate', order=2,
+		options=['Circle', 'Square', 'Triangle', 'Star', 'Hexagon'], answer='Star',
+		explanation='Cycle length is 4. 12 mod 4 = 0, so the 12th is the 4th in the cycle: Star.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Sequences & Series'
+	))
+
+	# 3
+	add(render_question_block(
+		title='Expression for Total Items',
+		description='Translate a word scenario into an algebraic expression.',
+		question='A jar contains 15 marbles. You add $y$ more marbles. Which expression represents the total number of marbles?',
+		instruction='Choose the expression that models the situation.',
+		difficulty='easy', order=3,
+		options=['$15-y$', '$15y$', '$\\frac{15}{y}$', '$y-15$', '$15+y$'], answer='$15+y$',
+		explanation='Start with 15 and add y new marbles: $15 + y$.',
+		subject='Quantitative Math', unit='Algebra', topic='Interpreting Variables'
+	))
+
+	# 4
+	add(render_question_block(
+		title='Place Value and Inequality',
+		description='Find the greatest digit for a number to stay below a bound.',
+		question='In the number $5,\\square 42$, $\\square$ is a digit 0–9. If the number is less than 5,242, what is the greatest possible value for $\\square$?',
+		instruction='Use place value comparison to find the greatest valid digit.',
+		difficulty='easy', order=4,
+		options=['0', '1', '2', '4', '9'], answer='1',
+		explanation='Compare hundreds place with 2 in 5,242: the greatest hundreds digit to keep it smaller is 1.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Computation with Whole Numbers'
+	))
+
+	# 5
+	add(render_question_block(
+		title='Adding Fractions',
+		description='Add two fractions with unlike denominators.',
+		question='Which of the following is the sum of $\\frac{5}{12}$ and $\\frac{1}{3}$?',
+		instruction='Compute using a common denominator.',
+		difficulty='easy', order=5,
+		options=['$\\frac{1}{4}$', '$\\frac{2}{3}$', '$\\frac{3}{4}$', '$\\frac{5}{6}$', '$\\frac{7}{12}$'], answer='$\\frac{3}{4}$',
+		explanation='$\\frac{5}{12}+\\frac{1}{3}=\\frac{5}{12}+\\frac{4}{12}=\\frac{9}{12}=\\frac{3}{4}$.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents'
+	))
+
+	# 6
+	add(render_question_block(
+		title='Altitude Difference from a Graph (Conceptual)',
+		description='Read altitude change from start and finish.',
+		question='A hiker starts at 120 meters and ends at 420 meters after a steady climb. How many meters higher is the end than the start?',
+		instruction='Compute final altitude minus initial altitude.',
+		difficulty='easy', order=6,
+		options=['120', '240', '300', '320', '540'], answer='300',
+		explanation='420 − 120 = 300 meters.',
+		subject='Quantitative Math', unit='Data Analysis & Probability', topic='Interpretation of Tables & Graphs'
+	))
+
+	# 7
+	add(render_question_block(
+		title='Multiply Decimals',
+		description='Evaluate a product of decimals.',
+		question='What is the value of $0.25 \\times 18 \\times 0.4$?',
+		instruction='Use associativity to simplify.',
+		difficulty='easy', order=7,
+		options=['0.18', '1.8', '18', '180', '0.72'], answer='1.8',
+		explanation='$0.25 \\times 0.4 = 0.1$ and $0.1 \\times 18 = 1.8$.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents'
+	))
+
+	# 8
+	add(render_question_block(
+		title='Minimize Coins for a Total',
+		description='Find the least number of coins to make a given amount.',
+		question='There are ten of each coin: 1¢, 5¢, 10¢, and 25¢. If you need exactly 47¢, what is the least number of coins required?',
+		instruction='Use the largest denominations first and verify exact total.',
+		difficulty='moderate', order=8,
+		options=['Three', 'Four', 'Five', 'Six', 'Seven'], answer='Five',
+		explanation='47 = 25 + 10 + 10 + 1 + 1 uses five coins; four coins cannot make 47.',
+		subject='Quantitative Math', unit='Reasoning', topic='Word Problems'
+	))
+
+	# 9
+	add(render_question_block(
+		title='Multiply Fractions then Halve',
+		description='Evaluate a nested fractional expression.',
+		question='What is the value of $\\frac{1}{2}\\left(\\frac{2}{3} \\times \\frac{3}{4}\\right)$?',
+		instruction='Multiply inside the parentheses first.',
+		difficulty='easy', order=9,
+		options=['$\\frac{1}{4}$', '$\\frac{1}{3}$', '$\\frac{3}{8}$', '$\\frac{5}{12}$', '$\\frac{7}{24}$'], answer='$\\frac{1}{4}$',
+		explanation='$\\frac{2}{3} \\times \\frac{3}{4} = \\frac{1}{2}$; then half gives $\\frac{1}{4}$.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents'
+	))
+
+	# 10
+	add(render_question_block(
+		title='Midpoints on a Line Segment',
+		description='Use midpoint relations to compute a segment length.',
+		question='Segment $\\overline{ST}$ has length 10, $T$ is the midpoint of $\\overline{RV}$, and $S$ is the midpoint of $\\overline{RT}$. What is the length of $\\overline{SV}$?',
+		instruction='Express RV in terms of ST using midpoint relations.',
+		difficulty='moderate', order=10,
+		options=['10', '20', '30', '40', '50'], answer='30',
+		explanation='S midpoint of RT ⇒ ST = RT/2 ⇒ RT = 20. T midpoint of RV ⇒ TV = RT = 20. So SV = ST + TV = 10 + 20 = 30.',
+		subject='Quantitative Math', unit='Geometry and Measurement', topic='Lines, Angles, & Triangles'
+	))
+
+	# 11
+	add(render_question_block(
+		title='Solve Whole-Number Identity',
+		description='Solve for a whole number that satisfies a simple quadratic identity.',
+		question='Let $a$ be defined by $a=a^{2}-a$, where $a$ is a whole number and $a\\neq 0$. What is the value of $3a$?',
+		instruction='Solve for a, then compute 3a.',
+		difficulty='easy', order=11,
+		options=['4', '5', '6', '7', '8'], answer='6',
+		explanation='$a=a^{2}-a \\Rightarrow a^{2}-2a=0 \\Rightarrow a(a-2)=0$. With $a\\neq 0$, $a=2$, so $3a=6$.',
+		subject='Quantitative Math', unit='Algebra', topic='Interpreting Variables'
+	))
+
+	# 12
+	add(render_question_block(
+		title='Counting Uniform Combinations',
+		description='Count combinations from shirts and pants options.',
+		question='A uniform has 1 shirt and 1 pair of pants. If there are 5 shirt colors and 2 pants colors, how many different uniforms are possible?',
+		instruction='Multiply the number of shirt choices by pant choices.',
+		difficulty='easy', order=12,
+		options=['6', '8', '10', '12', '15'], answer='10',
+		explanation='There are 5 shirts and 2 pants: $5 \\times 2 = 10$.',
+		subject='Quantitative Math', unit='Data Analysis & Probability', topic='Counting & Arrangement Problems'
+	))
+
+	# 13
+	add(render_question_block(
+		title='Parity Reasoning',
+		description='Determine which expression yields an odd integer for even n.',
+		question='If $n$ is an even integer, which of the following must be an odd integer?',
+		instruction='Analyze parity for each expression.',
+		difficulty='easy', order=13,
+		options=['$n$', '$n+1$', '$2n$', '$3n$', '$n+2$'], answer='$n+1$',
+		explanation='If $n$ is even, then $n+1$ is odd.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Basic Number Theory'
+	))
+
+	# 14
+	add(render_question_block(
+		title='Direct Proportion: Miles per Dollar',
+		description='Use proportional reasoning to scale miles by fuel cost.',
+		question='A car travels 180 miles on $\\$30 of gas. At the same rate, how many miles on $\\$45?',
+		instruction='Use miles per dollar to scale linearly.',
+		difficulty='easy', order=14,
+		options=['225', '240', '255', '270', '300'], answer='270',
+		explanation='$180/30 = 6$ miles per dollar; $6 \\times 45 = 270$.',
+		subject='Quantitative Math', unit='Reasoning', topic='Word Problems'
+	))
+
+	# 15
+	add(render_question_block(
+		title='Closest Fraction to a Percentage',
+		description='Compare fractions to 62%.',
+		question='Which fraction is closest to $62\\%$?',
+		instruction='Convert fractions to percents or compare decimals.',
+		difficulty='moderate', order=15,
+		options=['$\\frac{1}{2}$', '$\\frac{3}{5}$', '$\\frac{5}{8}$', '$\\frac{2}{3}$', '$\\frac{7}{10}$'], answer='$\\frac{5}{8}$',
+		explanation='$\\frac{5}{8}=0.625=62.5\\%$, closest to 62%.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents'
+	))
+
+	# 16
+	add(render_question_block(
+		title='Balanced Club Sizes',
+		description='Distribute students into clubs with max difference 1.',
+		question='There are 84 students forming 5 clubs. Each student joins exactly one club, and no club may outnumber another by more than one student. What is the least possible number of students in one club?',
+		instruction='Distribute as evenly as possible.',
+		difficulty='moderate', order=16,
+		options=['15', '16', '17', '18', '19'], answer='16',
+		explanation='84 divided as evenly as possible into 5 gives sizes 17, 17, 17, 16, 17; the least is 16.',
+		subject='Quantitative Math', unit='Data Analysis & Probability', topic='Counting & Arrangement Problems'
+	))
+
+	# 17
+	add(render_question_block(
+		title='Shaded Fraction of a Rectangle (Variant)',
+		description='Find the shaded portion count out of total.',
+		question='A rectangle is divided into 8 congruent squares. If $5\\tfrac{1}{2}$ squares are shaded, what fraction of the rectangle is shaded?',
+		instruction='Compute shaded total over 8 and simplify if possible.',
+		difficulty='easy', order=17,
+		options=['$\\frac{5}{8}$', '$\\frac{11}{16}$', '$\\frac{3}{4}$', '$\\frac{7}{12}$', '$\\frac{2}{3}$'], answer='$\\frac{11}{16}$',
+		explanation='$5.5/8 = 11/16$.',
+		subject='Quantitative Math', unit='Geometry and Measurement', topic='Area & Volume'
+	))
+
+	# 18
+	add(render_question_block(
+		title='Currency Exchange Chains',
+		description='Convert gold to copper through given exchange rates.',
+		question='In a game, 1 gold piece may be exchanged for 4 silver pieces, and 3 silver pieces may be exchanged for 18 copper pieces. How many copper pieces for 5 gold pieces?',
+		instruction='Find copper per gold, then scale.',
+		difficulty='easy', order=18,
+		options=['60', '90', '100', '120', '150'], answer='120',
+		explanation='1 silver = 6 copper; 1 gold = 4 silver = 24 copper; 5 gold = 120 copper.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Rational Numbers'
+	))
+
+	# 19
+	add(render_question_block(
+		title='Sum of Horizontal Segments (Variant)',
+		description='Use only horizontal contributions to find n as a horizontal length.',
+		question='The figure shows AB=5 cm, CD=9 cm, EF=7 cm with two squares of side 3 cm placed between the segments. What is the horizontal length n?',
+		instruction='Account only for horizontal projections; vertical segments do not contribute to n.',
+		difficulty='moderate', order=19,
+		options=['13', '14', '15', '16', '17'], answer='15',
+		explanation='n = 5 + 9 + 7 − 3 − 3 = 15 cm.',
+		subject='Quantitative Math', unit='Geometry and Measurement', topic='Coordinate Geometry'
+	))
+
+	# 20
+	add(render_question_block(
+		title='Order of Operations',
+		description='Evaluate an expression with exponents, multiplication/division, and addition.',
+		question='Calculate: $2+8 \\times 3^{2} \\div 4+5^{2}$',
+		instruction='Apply exponents first, then multiplication/division from left to right, then addition.',
+		difficulty='easy', order=20,
+		options=['35', '39', '41', '45', '49'], answer='45',
+		explanation='$3^{2}=9; 8\\times9=72; 72\\div4=18; 2+18+25=45$.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Order of Operations'
+	))
+
+	# 21
+	add(render_question_block(
+		title='Face-Down Flip Concept',
+		description='Understand difference between rotations and mirror reflections.',
+		question='After turning a card face down, which of the following cannot be obtained by rotation alone from the original face-up orientation?',
+		instruction='Recall that a face-down flip produces a mirror image.',
+		difficulty='hard', order=21,
+		options=['90° rotation', '180° rotation', 'Vertical mirror image', '270° rotation', '0° (no change)'], answer='Vertical mirror image',
+		explanation='Mirror images cannot be produced by rotations alone.',
+		subject='Quantitative Math', unit='Geometry and Measurement', topic='Transformations (Dilating a shape)'
+	))
+
+	# 22
+	add(render_question_block(
+		title='Integer Conditions with Odd n',
+		description='Decide which expression is always an integer for odd n.',
+		question='If a number $n$ is odd, which of the following expressions must be an integer?',
+		instruction='Let $n=2k+1$ and test each expression.',
+		difficulty='easy', order=22,
+		options=['$\\frac{n}{2}$', '$\\frac{n+1}{2}$', '$\\frac{3n}{4}$', '$\\frac{n+3}{4}$', '$\\frac{n+2}{3}$'], answer='$\\frac{n+1}{2}$',
+		explanation='For $n=2k+1$, $\\frac{n+1}{2}=k+1$ is always an integer.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Basic Number Theory'
+	))
+
+	# 23
+	add(render_question_block(
+		title='Reading Fractions of a Book (Variant)',
+		description='Track remaining pages after fractional reading over two days.',
+		question='On Monday, a reader completes $\\frac{1}{4}$ of a book; on Tuesday, $\\frac{1}{3}$ of the remaining pages. To finish, 90 pages are left. How many pages are in the book?',
+		instruction='Compute the fraction remaining after each day and set to 90.',
+		difficulty='moderate', order=23,
+		options=['120', '150', '180', '240', '360'], answer='180',
+		explanation='After Monday: 3/4 remain. Tuesday reads 1/3 of that ⇒ 2/3 remain of 3/4 ⇒ 1/2 of the book. 1/2 = 90 ⇒ total 180.',
+		subject='Quantitative Math', unit='Reasoning', topic='Word Problems'
+	))
+
+	# 24
+	add(render_question_block(
+		title='Circumference of Inscribed Circle',
+		description='Compute circumference from a square’s area.',
+		question='A square has area 196 in^2. What is the circumference of the largest circle cut from it?',
+		instruction='Diameter equals square side length.',
+		difficulty='easy', order=24,
+		options=['$14\\pi$', '$28\\pi$', '$42\\pi$', '$56\\pi$', '$196\\pi$'], answer='$14\\pi$',
+		explanation='Side = $\\sqrt{196}=14$, so circumference = $\\pi d = 14\\pi$.',
+		subject='Quantitative Math', unit='Geometry and Measurement', topic='Circles (Area, circumference)'
+	))
+
+	# 25
+	add(render_question_block(
+		title='Successive Percent Changes',
+		description='Apply percentage increase then decrease.',
+		question='The number 150 is increased by 20%, then decreased by 25% to give x. What is x?',
+		instruction='Compute step by step.',
+		difficulty='easy', order=25,
+		options=['110', '115', '120', '130', '135'], answer='135',
+		explanation='150 \\to 180 (increase 20%), then 180 \\times 0.75 = 135.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents'
+	))
+
+	return "\n".join(blocks)
+
+
+def write_shadow_questions_docx(path: Path) -> None:
+	doc = Document()
+	shadow_text = build_25_shadow_questions_text()
+	# Split into blocks separated by blank lines between questions
+	for block in shadow_text.strip().split("\n\n"):
+		for line in block.splitlines():
+			doc.add_paragraph(line)
+		doc.add_paragraph("")
+	doc.save(path)
+
+
 def build_25_questions_text() -> str:
 	blocks: List[str] = []
 	add = blocks.append
@@ -554,11 +874,16 @@ def main() -> None:
 	(OUTPUT_DIR / 'assessment_25_questions.txt').write_text(build_25_questions_text(), encoding='utf-8')
 	# Word doc for 25 questions with images
 	write_25_questions_docx(OUTPUT_DIR / 'Assessment_25_Questions_With_Images.docx')
+	# Shadow questions (text + docx)
+	(OUTPUT_DIR / 'assessment_25_shadow_questions.txt').write_text(build_25_shadow_questions_text(), encoding='utf-8')
+	write_shadow_questions_docx(OUTPUT_DIR / 'Assessment_25_Shadow_Questions.docx')
 	print('Generated files:')
 	print(f" - {OUTPUT_DIR / 'Assessment_New_Questions.docx'}")
 	print(f" - {OUTPUT_DIR / 'new_questions.txt'}")
 	print(f" - {OUTPUT_DIR / 'assessment_25_questions.txt'}")
 	print(f" - {OUTPUT_DIR / 'Assessment_25_Questions_With_Images.docx'}")
+	print(f" - {OUTPUT_DIR / 'assessment_25_shadow_questions.txt'}")
+	print(f" - {OUTPUT_DIR / 'Assessment_25_Shadow_Questions.docx'}")
 
 
 # ---------------- Additional functions for 25-question DOCX with images ----------------
@@ -724,7 +1049,9 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 
 	# Q13
 	B(title='Parity Reasoning', description='Determine which expression yields an even integer for odd n.',
-		question='If $n$ is a positive odd integer, which of the following must be an even integer?', instruction='Analyze parity for each expression.', difficulty='easy', order=13,
+		question='If $n$ is a positive odd integer, which of the following must be an even integer?',
+		instruction='Analyze parity for each expression.',
+		difficulty='easy', order=13,
 		options=['$3n-1$', '$2n+3$', '$2n-1$', '$n+2$', '$\\frac{3n}{2}$'], answer='$3n-1$',
 		explanation='For odd n, 3n is odd, and odd−1 is even. Others are not guaranteed even integers.', subject='Quantitative Math', unit='Numbers and Operations', topic='Basic Number Theory',
 		question_image_urls=[], option_image_urls={})
@@ -745,7 +1072,9 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 
 	# Q16
 	B(title='Balanced Club Sizes', description='Distribute 100 students into 3 clubs with max difference 1.',
-		question='Five classes of 20 students form 3 clubs. Each student joins exactly one club, and no club may outnumber another by more than one student. What is the least possible number of students in one club?', instruction='Distribute as evenly as possible.', difficulty='moderate', order=16,
+		question='Five classes of 20 students form 3 clubs. Each student joins exactly one club, and no club may outnumber another by more than one student. What is the least possible number of students in one club?',
+		instruction='Distribute as evenly as possible.',
+		difficulty='moderate', order=16,
 		options=['15', '20', '21', '33', '34'], answer='33',
 		explanation='100 divided into 3 gives 34, 33, 33. The least is 33.', subject='Quantitative Math', unit='Data Analysis & Probability', topic='Counting & Arrangement Problems',
 		question_image_urls=[], option_image_urls={})
@@ -760,7 +1089,9 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 
 	# Q18
 	B(title='Currency Exchange Chains', description='Convert gold to copper through given exchange rates.',
-		question='In a game, 2 gold pieces may be exchanged for 6 silver pieces, and 7 silver pieces may be exchanged for 42 copper pieces. How many copper pieces for 5 gold pieces?', instruction='Find copper per gold, then scale.', difficulty='easy', order=18,
+		question='In a game, 2 gold pieces may be exchanged for 6 silver pieces, and 7 silver pieces may be exchanged for 42 copper pieces. How many copper pieces for 5 gold pieces?',
+		instruction='Find copper per gold, then scale.',
+		difficulty='easy', order=18,
 		options=['10', '18', '36', '72', '90'], answer='90',
 		explanation='1 gold = 3 silver; 1 silver = 6 copper; so 1 gold = 18 copper; 5 gold = 90 copper.', subject='Quantitative Math', unit='Numbers and Operations', topic='Rational Numbers',
 		question_image_urls=[], option_image_urls={})
@@ -804,21 +1135,27 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 
 	# Q23
 	B(title='Reading Fractions of a Book', description='Track remaining pages after fractional reading over two days.',
-		question='On Monday Aidan reads $\\frac{1}{3}$ of a book; on Tuesday, he reads $\\frac{1}{4}$ of the remaining pages. To finish, he must read an additional 60 pages. How many pages are in the book?', instruction='Compute remaining after each day and set equal to 60.', difficulty='moderate', order=23,
+		question='On Monday Aidan reads $\\frac{1}{3}$ of a book; on Tuesday, $\\frac{1}{4}$ of the remaining pages. To finish, 90 pages are left. How many pages are in the book?',
+		instruction='Compute the fraction remaining after each day and set to 90.',
+		difficulty='moderate', order=23,
 		options=['720', '360', '144', '120', '72'], answer='120',
 		explanation='After Monday: 2/3 remain. Tuesday reads 1/4 of that (1/6 of whole), so 1/2 remains. 1/2 of the book = 60 pages, so total = 120.', subject='Quantitative Math', unit='Reasoning', topic='Word Problems',
 		question_image_urls=[], option_image_urls={})
 
 	# Q24
 	B(title='Circumference of Inscribed Circle', description='Compute circumference from a square’s area.',
-		question='A square has area 144 in^2. What is the circumference of the largest circle cut from it?', instruction='Diameter equals square side length.', difficulty='easy', order=24,
+		question='A square has area 144 in^2. What is the circumference of the largest circle cut from it?',
+		instruction='Diameter equals square side length.',
+		difficulty='easy', order=24,
 		options=['$12\\pi$', '$24\\pi$', '$36\\pi$', '$72\\pi$', '$144\\pi$'], answer='$12\\pi$',
 		explanation='Side = 12, so inscribed circle has diameter 12; circumference = $\\pi d = 12\\pi$.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Circles (Area, circumference)',
 		question_image_urls=[], option_image_urls={})
 
 	# Q25
 	B(title='Successive Percent Changes', description='Apply percentage increase then decrease.',
-		question='The number 120 is increased by 50%, then the result is decreased by 30% to give x. What is x?', instruction='Compute step by step.', difficulty='easy', order=25,
+		question='The number 120 is increased by 50%, then the result is decreased by 30% to give x. What is x?',
+		instruction='Compute step by step.',
+		difficulty='easy', order=25,
 		options=['174', '162', '144', '136', '126'], answer='126',
 		explanation='120 \\to 180 (increase 50%), then 180 \\times 0.7 = 126.', subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents',
 		question_image_urls=[], option_image_urls={})
