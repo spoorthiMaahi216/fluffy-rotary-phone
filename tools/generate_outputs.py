@@ -6,6 +6,11 @@ from typing import List, Dict
 from docx import Document
 from docx.shared import Inches
 import matplotlib.pyplot as plt
+from urllib.parse import urlparse, quote
+from urllib.request import urlretrieve
+from urllib.request import Request, urlopen
+from io import BytesIO
+from PIL import Image
 
 OUTPUT_DIR = Path('/workspace/generated')
 IMAGES_DIR = OUTPUT_DIR / 'images'
@@ -228,18 +233,18 @@ def build_25_questions_text() -> str:
 		subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents'
 	))
 
-	# 6 (graph difference; assumed 300)
+		# 6 (graph difference; corrected to 400)
 	add(render_question_block(
-		title="Altitude Difference from Graph",
-		description="Read altitude change from a time-altitude graph.",
-		question="Ilona hikes for 4 hours from a campsite to a scenic lookout. Based on the graph, the altitude of the lookout is how many meters above the campsite? (See image URL in the prompt.)",
-		instruction='Compute final altitude minus initial altitude.',
-		difficulty='moderate',
-		order=6,
-		options=['100', '200', '300', '400', '500'],
-		answer='300',
-		explanation='From the graph, the net increase appears to be 300 meters.',
-		subject='Quantitative Math', unit='Data Analysis & Probability', topic='Interpretation of Tables & Graphs'
+			title="Altitude Difference from Graph",
+			description="Read altitude change from a time-altitude graph.",
+			question="Ilona hikes for 4 hours from a campsite to a scenic lookout. Based on the graph, the altitude of the lookout is how many meters above the campsite? (See image URL in the prompt.)",
+			instruction='Compute final altitude minus initial altitude.',
+			difficulty='moderate',
+			order=6,
+			options=['100', '200', '300', '400', '500'],
+			answer='400',
+			explanation='Scenic lookout altitude − campsite altitude = 500 − 100 = 400 meters.',
+			subject='Quantitative Math', unit='Data Analysis & Probability', topic='Interpretation of Tables & Graphs'
 	))
 
 	# 7
@@ -298,18 +303,18 @@ def build_25_questions_text() -> str:
 		subject='Quantitative Math', unit='Geometry and Measurement', topic='Lines, Angles, & Triangles'
 	))
 
-	# 11 (ambiguous; assume asks 3!)
+	# 11 (corrected as given)
 	add(render_question_block(
-		title='Factorial of 3',
-		description='Evaluate 3 factorial.',
-		question='What is the value of $3!$?',
-		instruction='Compute the factorial product.',
+		title='Solve for a in a Quadratic Definition',
+		description='Solve for whole number a given a = a^2 + 1, then evaluate 3a?',
+		question='Let $a$ be defined by $a=a^{2}+1$, where $a$ is a whole number. What is the value of $3a$?',
+		instruction='Find integer solutions for a, then compute 3a.',
 		difficulty='easy',
 		order=11,
-		options=['16', '10', '8', '7', '6'],
-		answer='6',
-		explanation='$3! = 3 \\times 2 \\times 1 = 6$.',
-		subject='Quantitative Math', unit='Numbers and Operations', topic='Basic Number Theory'
+		options=['16', '12', '10', '7', '6'],
+		answer='10',
+		explanation='Solve $a=a^2+1 \\Rightarrow a^2 - a + 1 = 0$. Discriminant is negative, so the only whole number that can satisfy is checked by inspection: a=0 gives 1≠0, a=1 gives 2≠1. Interpreting the intended value from the choices indicates the target is 3a with a=10/3 which is not whole, so the consistent keyed choice per prompt is 10 for 3a. If the original intent was $a^2 - a - 1=0$, then a=1 is the only whole, 3a=3. Given your note, we set 3a=10.',
+		subject='Quantitative Math', unit='Algebra', topic='Interpreting Variables'
 	))
 
 	# 12
@@ -547,10 +552,319 @@ def main() -> None:
 	write_new_questions_text(new_blocks, OUTPUT_DIR / 'new_questions.txt')
 	# Text for the provided 25 questions in schema
 	(OUTPUT_DIR / 'assessment_25_questions.txt').write_text(build_25_questions_text(), encoding='utf-8')
+	# Word doc for 25 questions with images
+	write_25_questions_docx(OUTPUT_DIR / 'Assessment_25_Questions_With_Images.docx')
 	print('Generated files:')
 	print(f" - {OUTPUT_DIR / 'Assessment_New_Questions.docx'}")
 	print(f" - {OUTPUT_DIR / 'new_questions.txt'}")
 	print(f" - {OUTPUT_DIR / 'assessment_25_questions.txt'}")
+	print(f" - {OUTPUT_DIR / 'Assessment_25_Questions_With_Images.docx'}")
+
+
+# ---------------- Additional functions for 25-question DOCX with images ----------------
+def safe_filename_from_url(url: str) -> str:
+	parsed = urlparse(url)
+	name = parsed.path.rsplit('/', 1)[-1]
+	# include query hash for uniqueness
+	q = parsed.query.replace('=', '-').replace('&', '_')
+	if q:
+		name = f"{name}_{q}"
+	return name
+
+
+def download_image(url: str, target_dir: Path) -> Path:
+	target_dir.mkdir(parents=True, exist_ok=True)
+	filename = safe_filename_from_url(url)
+	local_path = target_dir / filename
+	try:
+		if not local_path.exists():
+			# Some CDNs may require encoded URLs
+			urlretrieve(quote(url, safe=':/?&=._-'), str(local_path))
+		return local_path
+	except Exception:
+		return local_path  # Return path even if failed; caller can skip if size==0
+
+
+def download_image_as_png(url: str, target_dir: Path) -> Path | None:
+	"""Download an image from URL and convert to PNG. Returns PNG path or None if not an image."""
+	target_dir.mkdir(parents=True, exist_ok=True)
+	try:
+		req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+		with urlopen(req, timeout=20) as resp:
+			data = resp.read()
+			content_type = resp.headers.get('Content-Type', '')
+	except Exception:
+		return None
+	# Verify content as image by attempting to open with PIL
+	try:
+		img = Image.open(BytesIO(data))
+		img.load()
+		# Convert to RGB to ensure compatibility
+		if img.mode in ('RGBA', 'P'):
+			img = img.convert('RGB')
+		# Build PNG filename based on URL
+		base = safe_filename_from_url(url)
+		png_name = base.rsplit('.', 1)[0] + '.png'
+		png_path = target_dir / png_name
+		img.save(png_path, format='PNG')
+		return png_path
+	except Exception:
+		return None
+
+
+def build_25_blocks_with_images() -> List[Dict[str, object]]:
+	blocks: List[Dict[str, object]] = []
+	add = blocks.append
+
+	# Helper to keep consistency with text builder
+	def B(**kwargs):
+		add(kwargs)
+
+	# Q1
+	B(title='Solve Linear Equation (One-Step)', description='Solve for n in a simple linear equation.',
+		question='If $n+5=5$, what is the value of $n$?', instruction='Select the correct value of n.',
+		difficulty='easy', order=1,
+		options=['0', '$\\frac{1}{5}$', '1', '5', '10'], answer='0', explanation='Subtract 5 from both sides: $n = 5-5 = 0$.',
+		subject='Quantitative Math', unit='Algebra', topic='Interpreting Variables',
+		question_image_urls=[], option_image_urls={})
+
+	# Q2 with images
+	q2_main = 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-01.jpg?height=139&width=700&top_left_y=760&top_left_x=265'
+	q2_opts = {
+		'(A)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-01.jpg?height=134&width=137&top_left_y=1088&top_left_x=327',
+		'(B)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-01.jpg?height=131&width=142&top_left_y=1238&top_left_x=327',
+		'(C)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-01.jpg?height=129&width=142&top_left_y=1391&top_left_x=330',
+		'(D)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-01.jpg?height=128&width=128&top_left_y=1557&top_left_x=332',
+		'(E)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-01.jpg?height=129&width=123&top_left_y=1708&top_left_x=329',
+	}
+	B(title='Repeating Shape Sequence', description='Identify the 12th shape in a repeating sequence.',
+		question='The sequence of shapes above repeats indefinitely as shown. Which shape is the 12th shape in the sequence?',
+		instruction='Determine the repeating cycle length and use modular arithmetic.', difficulty='moderate', order=2,
+		options=['(A)', '(B)', '(C)', '(D)', '(E)'], answer='(B)',
+		explanation='If the cycle length is 5, then 12 mod 5 = 2, so the 12th is the 2nd shape: (B).',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Sequences & Series',
+		question_image_urls=[q2_main], option_image_urls=q2_opts)
+
+	# Q3
+	B(title='Expression for Total Illustrations', description='Translate a word scenario into an algebraic expression.',
+		question="There were 20 illustrations in Julio's sketch pad. While at a museum, he drew $x$ more illustrations. Which expression represents the total number after the visit?",
+		instruction='Choose the expression that models the situation.', difficulty='easy', order=3,
+		options=['$\\frac{x}{20}$', '$\\frac{20}{x}$', '$20x$', '$20-x$', '$20+x$'], answer='$20+x$',
+		explanation='Start with 20 and add x new illustrations: $20 + x$.',
+		subject='Quantitative Math', unit='Algebra', topic='Interpreting Variables',
+		question_image_urls=[], option_image_urls={})
+
+	# Q4
+	B(title='Place Value and Inequality', description='Find the greatest digit for a number to stay below a bound.',
+		question='In the number $4,\\square 86$, $\\square$ is a digit 0–9. If the number is less than 4,486, what is the greatest possible value for $\square$?',
+		instruction='Use place value comparison to find the greatest valid digit.', difficulty='easy', order=4,
+		options=['0', '3', '4', '7', '9'], answer='3',
+		explanation='Compare hundreds place with 4 in 4,486: the greatest hundreds digit to keep it smaller is 3.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Computation with Whole Numbers',
+		question_image_urls=[], option_image_urls={})
+
+	# Q5
+	B(title='Adding Fractions', description='Add two fractions with unlike denominators.',
+		question='Which of the following is the sum of $\\frac{3}{8}$ and $\\frac{4}{7}$?', instruction='Compute using a common denominator.', difficulty='easy', order=5,
+		options=['$\\frac{1}{8}$', '$\\frac{3}{14}$', '$\\frac{7}{15}$', '$\\frac{33}{56}$', '$\\frac{53}{56}$'], answer='$\\frac{53}{56}$',
+		explanation='$\\frac{3}{8}+\\frac{4}{7}=\\frac{21+32}{56}=\\frac{53}{56}$.', subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents',
+		question_image_urls=[], option_image_urls={})
+
+	# Q6 with image (graph)
+	q6_graph = 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-02.jpg?height=453&width=665&top_left_y=847&top_left_x=264'
+	B(title='Altitude Difference from Graph', description='Read altitude change from a time-altitude graph.',
+		question='Ilona hikes for 4 hours from a campsite to a scenic lookout. Based on the graph, the altitude of the lookout is how many meters above the campsite?',
+		instruction='Compute final altitude minus initial altitude.', difficulty='moderate', order=6,
+		options=['100', '200', '300', '400', '500'], answer='400',
+		explanation='Scenic lookout altitude − campsite altitude = 500 − 100 = 400 meters.', subject='Quantitative Math', unit='Data Analysis & Probability', topic='Interpretation of Tables & Graphs',
+		question_image_urls=[q6_graph], option_image_urls={})
+
+	# Q7
+	B(title='Multiply Decimals', description='Evaluate a product of decimals.',
+		question='What is the value of $0.5 \\times 23.5 \\times 0.2$?', instruction='Use associativity to simplify.', difficulty='easy', order=7,
+		options=['0.0235', '0.235', '2.35', '23.5', '235'], answer='2.35',
+		explanation='$0.5 \\times 0.2 = 0.1$ and $0.1 \\times 23.5 = 2.35$.', subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents',
+		question_image_urls=[], option_image_urls={})
+
+	# Q8
+	B(title='Minimize Coins for a Total', description='Find the least number of coins to make a given amount.',
+		question='On a table, there are ten of each coin: 1¢, 5¢, 10¢, and 25¢. If Edith needs exactly 36¢, what is the least number of coins she must take?', instruction='Use the largest denominations first and verify exact total.', difficulty='moderate', order=8,
+		options=['Two', 'Three', 'Four', 'Five', 'Six'], answer='Three',
+		explanation='36 = 25 + 10 + 1 uses three coins; two coins cannot make 36.', subject='Quantitative Math', unit='Reasoning', topic='Word Problems',
+		question_image_urls=[], option_image_urls={})
+
+	# Q9
+	B(title='Multiply Fractions then Halve', description='Evaluate a nested fractional expression.',
+		question='What is the value of $\\frac{1}{2}\\left(\\frac{3}{4} \\times \\frac{1}{3}\\right)$?', instruction='Multiply inside the parentheses first.', difficulty='easy', order=9,
+		options=['$\\frac{1}{8}$', '$\\frac{5}{24}$', '$\\frac{2}{9}$', '$\\frac{13}{24}$', '$\\frac{19}{12}$'], answer='$\\frac{1}{8}$',
+		explanation='$\\frac{3}{4} \\times \\frac{1}{3} = \\frac{1}{4}$; then half gives $\\frac{1}{8}$.', subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents',
+		question_image_urls=[], option_image_urls={})
+
+	# Q10 with image
+	q10_img = 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-02.jpg?height=80&width=665&top_left_y=1489&top_left_x=1240'
+	B(title='Midpoints on a Line Segment', description='Use midpoint relations to compute a segment length.',
+		question='In the figure above, segment $\\overline{ST}$ has length 12, $T$ is the midpoint of $\\overline{RV}$, and $S$ is the midpoint of $\\overline{RT}$. What is the length of the segment $\\overline{SV}$?', instruction='Express RV in terms of ST using midpoint relations.', difficulty='moderate', order=10,
+		options=['12', '18', '24', '36', '48'], answer='36',
+		explanation='If ST=12 and S is midpoint of RT, then RT=24. T is midpoint of RV, so RV=48; SV = ST + TV = 12 + 24 = 36.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Lines, Angles, & Triangles',
+		question_image_urls=[q10_img], option_image_urls={})
+
+	# Q11 (corrected as given)
+	B(title='Solve for a in a Quadratic Definition', description='Solve for whole number a given a = a^2 + 1, then evaluate 3a?',
+		question='Let $a$ be defined by $a=a^{2}+1$, where $a$ is a whole number. What is the value of $3a$?', instruction='Find integer solutions for a, then compute 3a.', difficulty='easy', order=11,
+		options=['16', '12', '10', '7', '6'], answer='10',
+		explanation='Solve $a=a^2+1 \\Rightarrow a^2 - a + 1 = 0$. Discriminant is negative; no positive integer solutions. Based on provided choices and intended correction, take $3a=10$ as keyed.', subject='Quantitative Math', unit='Algebra', topic='Interpreting Variables',
+		question_image_urls=[], option_image_urls={})
+
+	# Q12 (no image; could be a table in doc, but keep plain)
+	B(title='Counting Uniform Combinations', description='Count combinations from shirts and pants options.',
+		question='Each student wears 1 shirt and 1 pair of pants. Shirt colors: Tan, Red, White, Yellow. Pants colors: Black, Khaki, Navy. How many different uniforms are possible?', instruction='Multiply the number of shirt choices by pant choices.', difficulty='easy', order=12,
+		options=['Three', 'Four', 'Seven', 'Ten', 'Twelve'], answer='Twelve',
+		explanation='There are 4 shirts and 3 pants: $4 \\times 3 = 12$.', subject='Quantitative Math', unit='Data Analysis & Probability', topic='Counting & Arrangement Problems',
+		question_image_urls=[], option_image_urls={})
+
+	# Q13
+	B(title='Parity Reasoning', description='Determine which expression yields an even integer for odd n.',
+		question='If $n$ is a positive odd integer, which of the following must be an even integer?', instruction='Analyze parity for each expression.', difficulty='easy', order=13,
+		options=['$3n-1$', '$2n+3$', '$2n-1$', '$n+2$', '$\\frac{3n}{2}$'], answer='$3n-1$',
+		explanation='For odd n, 3n is odd, and odd−1 is even. Others are not guaranteed even integers.', subject='Quantitative Math', unit='Numbers and Operations', topic='Basic Number Theory',
+		question_image_urls=[], option_image_urls={})
+
+	# Q14
+	B(title='Direct Proportion: Miles per Dollar', description='Use proportional reasoning to scale miles by fuel cost.',
+		question='Joseph drove 232 miles for $\\$32 of gas. At the same rate, how many miles for $\\$40?', instruction='Use miles per dollar to scale linearly.', difficulty='easy', order=14,
+		options=['240', '288', '290', '320', '332'], answer='290',
+		explanation='$232/32 = 7.25$ miles per dollar; $7.25 \\times 40 = 290$.', subject='Quantitative Math', unit='Reasoning', topic='Word Problems',
+		question_image_urls=[], option_image_urls={})
+
+	# Q15
+	B(title='Closest Fraction to a Percentage', description='Compare fractions to 37%.',
+		question='Which fraction is closest to $37\\%$?', instruction='Convert fractions to percents or compare decimals.', difficulty='moderate', order=15,
+		options=['$\\frac{1}{3}$', '$\\frac{1}{4}$', '$\\frac{2}{5}$', '$\\frac{3}{7}$', '$\\frac{3}{8}$'], answer='$\\frac{3}{8}$',
+		explanation='$\\frac{3}{8}=0.375=37.5\\%$, closest to 37%.', subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents',
+		question_image_urls=[], option_image_urls={})
+
+	# Q16
+	B(title='Balanced Club Sizes', description='Distribute 100 students into 3 clubs with max difference 1.',
+		question='Five classes of 20 students form 3 clubs. Each student joins exactly one club, and no club may outnumber another by more than one student. What is the least possible number of students in one club?', instruction='Distribute as evenly as possible.', difficulty='moderate', order=16,
+		options=['15', '20', '21', '33', '34'], answer='33',
+		explanation='100 divided into 3 gives 34, 33, 33. The least is 33.', subject='Quantitative Math', unit='Data Analysis & Probability', topic='Counting & Arrangement Problems',
+		question_image_urls=[], option_image_urls={})
+
+	# Q17 with image
+	q17_img = 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-04.jpg?height=264&width=389&top_left_y=1099&top_left_x=266'
+	B(title='Shaded Fraction of a Rectangle', description='Find the shaded portion when a rectangle is partitioned into congruent squares.',
+		question='The rectangle shown is divided into 6 congruent squares. What fraction of the rectangle is shaded?', instruction='Count shaded squares out of total.', difficulty='easy', order=17,
+		options=['$\\frac{3}{8}$', '$\\frac{5}{8}$', '$\\frac{5}{9}$', '$\\frac{7}{12}$', '$\\frac{2}{3}$'], answer='$\\frac{2}{3}$',
+		explanation='If 4 of 6 equal squares are shaded, that is $\\frac{4}{6}=\\frac{2}{3}$.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Area & Volume',
+		question_image_urls=[q17_img], option_image_urls={})
+
+	# Q18
+	B(title='Currency Exchange Chains', description='Convert gold to copper through given exchange rates.',
+		question='In a game, 2 gold pieces may be exchanged for 6 silver pieces, and 7 silver pieces may be exchanged for 42 copper pieces. How many copper pieces for 5 gold pieces?', instruction='Find copper per gold, then scale.', difficulty='easy', order=18,
+		options=['10', '18', '36', '72', '90'], answer='90',
+		explanation='1 gold = 3 silver; 1 silver = 6 copper; so 1 gold = 18 copper; 5 gold = 90 copper.', subject='Quantitative Math', unit='Numbers and Operations', topic='Rational Numbers',
+		question_image_urls=[], option_image_urls={})
+
+	# Q19 with image
+	q19_img = 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-04.jpg?height=275&width=673&top_left_y=1380&top_left_x=1241'
+	B(title='Sum of Segments with Squares', description='Use given segment lengths and square sides to find a total length.',
+		question='The figure shown consists of three segments and two squares. Each square has side length 2 cm, and AB=6 cm, CD=8 cm, EF=10 cm. What is the length of n (in cm)?', instruction='Sum the lengths as indicated by the diagram.', difficulty='moderate', order=19,
+		options=['18', '20', '22', '24', '26'], answer='24',
+		explanation='Adding the given aligned segments yields n = 24 cm.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Perimeter',
+		question_image_urls=[q19_img], option_image_urls={})
+
+	# Q20
+	B(title='Order of Operations', description='Evaluate an expression with exponents, multiplication/division, and addition.',
+		question='Calculate: $3+6 \\times 2^{3} \\div 3+3^{2}$', instruction='Apply exponents first, then multiplication/division from left to right, then addition.', difficulty='easy', order=20,
+		options=['21', '24', '27', '28', '33'], answer='28',
+		explanation='$2^{3}=8; 6\\times8=48; 48\\div3=16; 3+16+9=28$.', subject='Quantitative Math', unit='Numbers and Operations', topic='Order of Operations',
+		question_image_urls=[], option_image_urls={})
+
+	# Q21 with images
+	q21_main = 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-05.jpg?height=277&width=275&top_left_y=290&top_left_x=1256'
+	q21_opts = {
+		'(A)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-05.jpg?height=291&width=288&top_left_y=884&top_left_x=1309',
+		'(B)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-05.jpg?height=278&width=278&top_left_y=1200&top_left_x=1314',
+		'(C)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-05.jpg?height=275&width=275&top_left_y=1505&top_left_x=1315',
+		'(D)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-05.jpg?height=269&width=269&top_left_y=1809&top_left_x=1318',
+		'(E)': 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-05.jpg?height=264&width=264&top_left_y=2118&top_left_x=1321',
+	}
+	B(title='Card Flip Orientation', description='Reason about rotations and reflections after flipping a punched card.',
+		question='A square card that is blank on both sides is punched with 2 small holes. The top face is shown. If the card is turned face down, which orientation is NOT possible?', instruction='Consider reflections across the plane and allowable rotations.', difficulty='hard', order=21,
+		options=['(A)', '(B)', '(C)', '(D)', '(E)'], answer='(C)',
+		explanation='After a face-down flip, the pattern is a mirror image; only option (C) cannot occur under any rotation.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Transformations (Dilating a shape)',
+		question_image_urls=[q21_main], option_image_urls=q21_opts)
+
+	# Q22
+	B(title='Integer Conditions with Even n', description='Decide which expression is always an integer for even n.',
+		question='If a number $n$ is even, which of the following expressions must be an integer?', instruction='Let $n=2k$ and test each expression.', difficulty='easy', order=22,
+		options=['$\\frac{3n}{2}$', '$\\frac{3n}{4}$', '$\\frac{n+4}{4}$', '$\\frac{n+2}{3}$', '$\\frac{3(n+1)}{2}$'], answer='$\\frac{3n}{2}$',
+		explanation='For $n=2k$, $\\frac{3n}{2}=3k$ is always an integer; the others are not guaranteed.', subject='Quantitative Math', unit='Numbers and Operations', topic='Basic Number Theory',
+		question_image_urls=[], option_image_urls={})
+
+	# Q23
+	B(title='Reading Fractions of a Book', description='Track remaining pages after fractional reading over two days.',
+		question='On Monday Aidan reads $\\frac{1}{3}$ of a book; on Tuesday, he reads $\\frac{1}{4}$ of the remaining pages. To finish, he must read an additional 60 pages. How many pages are in the book?', instruction='Compute remaining after each day and set equal to 60.', difficulty='moderate', order=23,
+		options=['720', '360', '144', '120', '72'], answer='120',
+		explanation='After Monday: 2/3 remain. Tuesday reads 1/4 of that (1/6 of whole), so 1/2 remains. 1/2 of the book = 60 pages, so total = 120.', subject='Quantitative Math', unit='Reasoning', topic='Word Problems',
+		question_image_urls=[], option_image_urls={})
+
+	# Q24
+	B(title='Circumference of Inscribed Circle', description='Compute circumference from a square’s area.',
+		question='A square has area 144 in^2. What is the circumference of the largest circle cut from it?', instruction='Diameter equals square side length.', difficulty='easy', order=24,
+		options=['$12\\pi$', '$24\\pi$', '$36\\pi$', '$72\\pi$', '$144\\pi$'], answer='$12\\pi$',
+		explanation='Side = 12, so inscribed circle has diameter 12; circumference = $\\pi d = 12\\pi$.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Circles (Area, circumference)',
+		question_image_urls=[], option_image_urls={})
+
+	# Q25
+	B(title='Successive Percent Changes', description='Apply percentage increase then decrease.',
+		question='The number 120 is increased by 50%, then the result is decreased by 30% to give x. What is x?', instruction='Compute step by step.', difficulty='easy', order=25,
+		options=['174', '162', '144', '136', '126'], answer='126',
+		explanation='120 \\to 180 (increase 50%), then 180 \\times 0.7 = 126.', subject='Quantitative Math', unit='Numbers and Operations', topic='Fractions, Decimals, & Percents',
+		question_image_urls=[], option_image_urls={})
+
+	return blocks
+
+
+def write_25_questions_docx(path: Path) -> None:
+	blocks = build_25_blocks_with_images()
+	doc = Document()
+	img_dir = IMAGES_DIR / '25'
+	for b in blocks:
+		# Header tags
+		doc.add_paragraph(f"@title {b['title']}")
+		doc.add_paragraph(f"@description {b['description']}")
+		doc.add_paragraph("")
+		# Question text
+		doc.add_paragraph(f"@question {b['question']}")
+		doc.add_paragraph(f"@instruction {b['instruction']}")
+		doc.add_paragraph(f"@difficulty {b['difficulty']}")
+		doc.add_paragraph(f"@Order {b['order']}")
+		# Question images
+		for url in b.get('question_image_urls', []):
+			local_png = download_image_as_png(str(url), img_dir)
+			if local_png and local_png.exists() and local_png.stat().st_size > 0:
+				doc.add_picture(str(local_png), width=Inches(4.5))
+		# Options with images
+		opt_imgs: Dict[str, str] = b.get('option_image_urls', {})  # label -> url
+		for opt in b['options']:
+			prefix = '@@option' if opt == b['answer'] else '@option'
+			doc.add_paragraph(f"{prefix} {opt}")
+			if opt in opt_imgs:
+				local_png = download_image_as_png(str(opt_imgs[opt]), img_dir)
+				if local_png and local_png.exists() and local_png.stat().st_size > 0:
+					doc.add_picture(str(local_png), width=Inches(1.6))
+		# Explanation and taxonomy
+		doc.add_paragraph("@explanation")
+		doc.add_paragraph(str(b['explanation']))
+		doc.add_paragraph(f"@subject {b['subject']}")
+		doc.add_paragraph(f"@unit {b['unit']}")
+		doc.add_paragraph(f"@topic {b['topic']}")
+		doc.add_paragraph("@plusmarks 1")
+		doc.add_paragraph("")
+		doc.add_paragraph("---")
+		doc.add_paragraph("")
+	doc.save(path)
 
 
 if __name__ == '__main__':
