@@ -1,0 +1,37 @@
+@title Right Triangle Hypotenuse
+@description Find the hypotenuse of a right triangle using the Pythagorean theorem.
+
+@question In the right triangle shown, the legs have lengths 6 and 8 units. What is the length of the hypotenuse?
+@instruction Select the correct value of the hypotenuse.
+@difficulty easy
+@Order 1
+@option 7
+@option 8
+@option 9
+@@option 10
+@option 14
+@explanation
+By the Pythagorean theorem, c = \sqrt{6^{2} + 8^{2}} = \sqrt{36 + 64} = \sqrt{100} = 10.
+@subject Quantitative Math
+@unit Geometry and Measurement
+@topic Right Triangles & Trigonometry
+@plusmarks 1
+
+@title Average Fruit Count
+@description Compute the mean from a bar chart of three categories.
+
+@question The bar chart shows the counts of Apples, Bananas, and Cherries collected by a class. What is the mean (average) count across the three fruits?
+@instruction Choose the mean of the displayed counts.
+@difficulty moderate
+@Order 2
+@option 6
+@option 6.5
+@@option 7
+@option 7.5
+@option 8
+@explanation
+If the counts are 4, 7, and 10, then mean = (4+7+10)/3 = 21/3 = 7.
+@subject Quantitative Math
+@unit Data Analysis & Probability
+@topic Mean, Median, Mode, & Range
+@plusmarks 1

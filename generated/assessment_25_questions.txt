@@ -1,0 +1,474 @@
+@title Solve Linear Equation (One-Step)
+@description Solve for n in a simple linear equation.
+
+@question If $n+5=5$, what is the value of $n$?
+@instruction Select the correct value of n.
+@difficulty easy
+@Order 1
+@@option 0
+@option $\frac{1}{5}$
+@option 1
+@option 5
+@option 10
+@explanation
+Subtract 5 from both sides: $n = 5-5 = 0$.
+@subject Quantitative Math
+@unit Algebra
+@topic Interpreting Variables
+@plusmarks 1
+
+@title Repeating Shape Sequence
+@description Identify the 12th shape in a repeating sequence.
+
+@question The sequence of shapes above repeats indefinitely as shown. Which shape is the 12th shape in the sequence? (See image URLs provided in the prompt.)
+@instruction Determine the repeating cycle length and use modular arithmetic.
+@difficulty moderate
+@Order 2
+@option (A)
+@@option (B)
+@option (C)
+@option (D)
+@option (E)
+@explanation
+If the cycle length is 5, then 12 mod 5 = 2, so the 12th is the 2nd shape: (B).
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Sequences & Series
+@plusmarks 1
+
+@title Expression for Total Illustrations
+@description Translate a word scenario into an algebraic expression.
+
+@question There were 20 illustrations in Julio's sketch pad. While at a museum, he drew $x$ more illustrations. Which expression represents the total number after the visit?
+@instruction Choose the expression that models the situation.
+@difficulty easy
+@Order 3
+@option $\frac{x}{20}$
+@option $\frac{20}{x}$
+@option $20x$
+@option $20-x$
+@@option $20+x$
+@explanation
+Start with 20 and add x new illustrations: $20 + x$.
+@subject Quantitative Math
+@unit Algebra
+@topic Interpreting Variables
+@plusmarks 1
+
+@title Place Value and Inequality
+@description Find the greatest digit for a number to stay below a bound.
+
+@question In the number $4,\square 86$, $\square$ is a digit 0–9. If the number is less than 4,486, what is the greatest possible value for $\square$?
+@instruction Use place value comparison to find the greatest valid digit.
+@difficulty easy
+@Order 4
+@option 0
+@@option 3
+@option 4
+@option 7
+@option 9
+@explanation
+Compare hundreds place with 4 in 4,486: the greatest hundreds digit to keep it smaller is 3.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Computation with Whole Numbers
+@plusmarks 1
+
+@title Adding Fractions
+@description Add two fractions with unlike denominators.
+
+@question Which of the following is the sum of $\frac{3}{8}$ and $\frac{4}{7}$?
+@instruction Compute using a common denominator.
+@difficulty easy
+@Order 5
+@option $\frac{1}{8}$
+@option $\frac{3}{14}$
+@option $\frac{7}{15}$
+@option $\frac{33}{56}$
+@@option $\frac{53}{56}$
+@explanation
+$\frac{3}{8}+\frac{4}{7}=\frac{21+32}{56}=\frac{53}{56}$.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Fractions, Decimals, & Percents
+@plusmarks 1
+
+@title Altitude Difference from Graph
+@description Read altitude change from a time-altitude graph.
+
+@question Ilona hikes for 4 hours from a campsite to a scenic lookout. Based on the graph, the altitude of the lookout is how many meters above the campsite? (See image URL in the prompt.)
+@instruction Compute final altitude minus initial altitude.
+@difficulty moderate
+@Order 6
+@option 100
+@option 200
+@@option 300
+@option 400
+@option 500
+@explanation
+From the graph, the net increase appears to be 300 meters.
+@subject Quantitative Math
+@unit Data Analysis & Probability
+@topic Interpretation of Tables & Graphs
+@plusmarks 1
+
+@title Multiply Decimals
+@description Evaluate a product of decimals.
+
+@question What is the value of $0.5 \times 23.5 \times 0.2$?
+@instruction Use associativity to simplify.
+@difficulty easy
+@Order 7
+@option 0.0235
+@option 0.235
+@@option 2.35
+@option 23.5
+@option 235
+@explanation
+$0.5 \times 0.2 = 0.1$ and $0.1 \times 23.5 = 2.35$.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Fractions, Decimals, & Percents
+@plusmarks 1
+
+@title Minimize Coins for a Total
+@description Find the least number of coins to make a given amount.
+
+@question On a table, there are ten of each coin: 1¢, 5¢, 10¢, and 25¢. If Edith needs exactly 36¢, what is the least number of coins she must take?
+@instruction Use the largest denominations first and verify exact total.
+@difficulty moderate
+@Order 8
+@option Two
+@@option Three
+@option Four
+@option Five
+@option Six
+@explanation
+36 = 25 + 10 + 1 uses three coins; two coins cannot make 36.
+@subject Quantitative Math
+@unit Reasoning
+@topic Word Problems
+@plusmarks 1
+
+@title Multiply Fractions then Halve
+@description Evaluate a nested fractional expression.
+
+@question What is the value of $\frac{1}{2}\left(\frac{3}{4} \times \frac{1}{3}\right)$?
+@instruction Multiply inside the parentheses first.
+@difficulty easy
+@Order 9
+@@option $\frac{1}{8}$
+@option $\frac{5}{24}$
+@option $\frac{2}{9}$
+@option $\frac{13}{24}$
+@option $\frac{19}{12}$
+@explanation
+$\frac{3}{4} \times \frac{1}{3} = \frac{1}{4}$; then half gives $\frac{1}{8}$.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Fractions, Decimals, & Percents
+@plusmarks 1
+
+@title Midpoints on a Line Segment
+@description Use midpoint relations to compute a segment length.
+
+@question In the figure, $\overline{ST}$ has length 12, $T$ is the midpoint of $\overline{RV}$, and $S$ is the midpoint of $\overline{RT}$. What is the length of $\overline{SV}$? (See image URL in the prompt.)
+@instruction Express RV in terms of ST using midpoint relations.
+@difficulty moderate
+@Order 10
+@option 12
+@option 18
+@option 24
+@@option 36
+@option 48
+@explanation
+If ST=12 and S is midpoint of RT, then RT=24. T is midpoint of RV, so RV=48; SV = ST + TV = 12 + 24 = 36.
+@subject Quantitative Math
+@unit Geometry and Measurement
+@topic Lines, Angles, & Triangles
+@plusmarks 1
+
+@title Factorial of 3
+@description Evaluate 3 factorial.
+
+@question What is the value of $3!$?
+@instruction Compute the factorial product.
+@difficulty easy
+@Order 11
+@option 16
+@option 10
+@option 8
+@option 7
+@@option 6
+@explanation
+$3! = 3 \times 2 \times 1 = 6$.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Basic Number Theory
+@plusmarks 1
+
+@title Counting Uniform Combinations
+@description Count combinations from shirts and pants options.
+
+@question Each uniform has 1 shirt and 1 pair of pants. Shirt colors: Tan, Red, White, Yellow. Pants colors: Black, Khaki, Navy. How many different uniforms are possible?
+@instruction Multiply the number of shirt choices by pant choices.
+@difficulty easy
+@Order 12
+@option Three
+@option Four
+@option Seven
+@option Ten
+@@option Twelve
+@explanation
+There are 4 shirts and 3 pants: $4 \times 3 = 12$.
+@subject Quantitative Math
+@unit Data Analysis & Probability
+@topic Counting & Arrangement Problems
+@plusmarks 1
+
+@title Parity Reasoning
+@description Determine which expression yields an even integer for odd n.
+
+@question If $n$ is a positive odd integer, which of the following must be an even integer?
+@instruction Analyze parity for each expression.
+@difficulty easy
+@Order 13
+@@option $3n-1$
+@option $2n+3$
+@option $2n-1$
+@option $n+2$
+@option $\frac{3n}{2}$
+@explanation
+For odd n, 3n is odd, and odd−1 is even. Others are not guaranteed even integers.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Basic Number Theory
+@plusmarks 1
+
+@title Direct Proportion: Miles per Dollar
+@description Use proportional reasoning to scale miles by fuel cost.
+
+@question Joseph drove 232 miles for $\$32 of gas. At the same rate, how many miles for $\$40?
+@instruction Use miles per dollar to scale linearly.
+@difficulty easy
+@Order 14
+@option 240
+@option 288
+@@option 290
+@option 320
+@option 332
+@explanation
+$232/32 = 7.25$ miles per dollar; $7.25 \times 40 = 290$.
+@subject Quantitative Math
+@unit Reasoning
+@topic Word Problems
+@plusmarks 1
+
+@title Closest Fraction to a Percentage
+@description Compare fractions to 37%.
+
+@question Which fraction is closest to $37\%$?
+@instruction Convert fractions to percents or compare decimals.
+@difficulty moderate
+@Order 15
+@option $\frac{1}{3}$
+@option $\frac{1}{4}$
+@option $\frac{2}{5}$
+@option $\frac{3}{7}$
+@@option $\frac{3}{8}$
+@explanation
+$\frac{3}{8}=0.375=37.5\%$, closest to 37%.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Fractions, Decimals, & Percents
+@plusmarks 1
+
+@title Balanced Club Sizes
+@description Distribute 100 students into 3 clubs with max difference 1.
+
+@question Five classes of 20 students form 3 clubs. Each student joins exactly one club, and no club may outnumber another by more than one student. What is the least possible number of students in one club?
+@instruction Distribute as evenly as possible.
+@difficulty moderate
+@Order 16
+@option 15
+@option 20
+@option 21
+@@option 33
+@option 34
+@explanation
+100 divided into 3 gives 34, 33, 33. The least is 33.
+@subject Quantitative Math
+@unit Data Analysis & Probability
+@topic Counting & Arrangement Problems
+@plusmarks 1
+
+@title Shaded Fraction of a Rectangle
+@description Find the shaded portion when a rectangle is partitioned into congruent squares.
+
+@question The rectangle is divided into 6 congruent squares. What fraction of the rectangle is shaded? (See image URL in the prompt.)
+@instruction Count shaded squares out of total.
+@difficulty easy
+@Order 17
+@option $\frac{3}{8}$
+@option $\frac{5}{8}$
+@option $\frac{5}{9}$
+@option $\frac{7}{12}$
+@@option $\frac{2}{3}$
+@explanation
+If 4 of 6 equal squares are shaded, that is $\frac{4}{6}=\frac{2}{3}$.
+@subject Quantitative Math
+@unit Geometry and Measurement
+@topic Area & Volume
+@plusmarks 1
+
+@title Currency Exchange Chains
+@description Convert gold to copper through given exchange rates.
+
+@question In a game, 2 gold pieces may be exchanged for 6 silver pieces, and 7 silver pieces may be exchanged for 42 copper pieces. How many copper pieces for 5 gold pieces?
+@instruction Find copper per gold, then scale.
+@difficulty easy
+@Order 18
+@option 10
+@option 18
+@option 36
+@option 72
+@@option 90
+@explanation
+1 gold = 3 silver; 1 silver = 6 copper; so 1 gold = 18 copper; 5 gold = 90 copper.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Rational Numbers
+@plusmarks 1
+
+@title Sum of Segments with Squares
+@description Use given segment lengths and square sides to find a total length.
+
+@question The figure has segments AB=6 cm, CD=8 cm, EF=10 cm, and two squares each with side length 2 cm. What is the length n (in cm)? (See image URL in the prompt.)
+@instruction Sum the lengths as indicated in the figure.
+@difficulty moderate
+@Order 19
+@option 18
+@option 20
+@option 22
+@@option 24
+@option 26
+@explanation
+Adding the given aligned segments yields n = 24 cm.
+@subject Quantitative Math
+@unit Geometry and Measurement
+@topic Perimeter
+@plusmarks 1
+
+@title Order of Operations
+@description Evaluate an expression with exponents, multiplication/division, and addition.
+
+@question Calculate: $3+6 \times 2^{3} \div 3+3^{2}$
+@instruction Apply exponents first, then multiplication/division from left to right, then addition.
+@difficulty easy
+@Order 20
+@option 21
+@option 24
+@option 27
+@@option 28
+@option 33
+@explanation
+$2^{3}=8; 6\times8=48; 48\div3=16; 3+16+9=28$.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Order of Operations
+@plusmarks 1
+
+@title Card Flip Orientation
+@description Reason about rotations and reflections after flipping a punched card.
+
+@question A square card is punched with 2 holes as shown. If the card is turned face down, which orientation is NOT possible? (See images in the prompt.)
+@instruction Consider reflections across the plane and allowable rotations.
+@difficulty hard
+@Order 21
+@option (A)
+@option (B)
+@@option (C)
+@option (D)
+@option (E)
+@explanation
+After a face-down flip, the pattern is a mirror image; only option (C) cannot occur under any rotation.
+@subject Quantitative Math
+@unit Geometry and Measurement
+@topic Transformations (Dilating a shape)
+@plusmarks 1
+
+@title Integer Conditions with Even n
+@description Decide which expression is always an integer for even n.
+
+@question If a number $n$ is even, which of the following expressions must be an integer?
+@instruction Let $n=2k$ and test each expression.
+@difficulty easy
+@Order 22
+@@option $\frac{3n}{2}$
+@option $\frac{3n}{4}$
+@option $\frac{n+4}{4}$
+@option $\frac{n+2}{3}$
+@option $\frac{3(n+1)}{2}$
+@explanation
+For $n=2k$, $\frac{3n}{2}=3k$ is always an integer; the others are not guaranteed.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Basic Number Theory
+@plusmarks 1
+
+@title Reading Fractions of a Book
+@description Track remaining pages after fractional reading over two days.
+
+@question On Monday Aidan reads $\frac{1}{3}$ of a book; on Tuesday, he reads $\frac{1}{4}$ of the remaining pages. To finish, he must read an additional 60 pages. How many pages are in the book?
+@instruction Compute remaining after each day and set equal to 60.
+@difficulty moderate
+@Order 23
+@option 720
+@option 360
+@option 144
+@@option 120
+@option 72
+@explanation
+After Monday: 2/3 remain. Tuesday reads 1/4 of that (1/6 of whole), so 1/2 remains. 1/2 of the book = 60 pages, so total = 120.
+@subject Quantitative Math
+@unit Reasoning
+@topic Word Problems
+@plusmarks 1
+
+@title Circumference of Inscribed Circle
+@description Compute circumference from a square’s area.
+
+@question A square has area 144 in^2. What is the circumference of the largest circle cut from it?
+@instruction Diameter equals square side length.
+@difficulty easy
+@Order 24
+@@option $12\pi$
+@option $24\pi$
+@option $36\pi$
+@option $72\pi$
+@option $144\pi$
+@explanation
+Side = 12, so inscribed circle has diameter 12; circumference = $\pi d = 12\pi$.
+@subject Quantitative Math
+@unit Geometry and Measurement
+@topic Circles (Area, circumference)
+@plusmarks 1
+
+@title Successive Percent Changes
+@description Apply percentage increase then decrease.
+
+@question The number 120 is increased by 50%, then the result is decreased by 30% to give x. What is x?
+@instruction Compute step by step.
+@difficulty easy
+@Order 25
+@option 174
+@option 162
+@option 144
+@option 136
+@@option 126
+@explanation
+120 \to 180 (increase 50%), then 180 \times 0.7 = 126.
+@subject Quantitative Math
+@unit Numbers and Operations
+@topic Fractions, Decimals, & Percents
+@plusmarks 1
