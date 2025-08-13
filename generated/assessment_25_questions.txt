@@ -348,12 +348,12 @@ If $3\tfrac{1}{2}$ of 6 equal squares are shaded, that is $\frac{3.5}{6}=\frac{7
 @difficulty moderate
 @Order 19
 @option 18
-@option 20
-@@option 22
+@@option 20
+@option 22
 @option 24
 @option 26
 @explanation
-Sum the horizontal runs: 6 + 8 + 10 − two vertical offsets (2 each) = 22 cm, matching the diagram’s horizontal alignments.
+Subtract the two 2 cm square spans from the total: 6 + 8 + 10 − 2 − 2 = 20 cm.
 @subject Quantitative Math
 @unit Geometry and Measurement
 @topic Coordinate Geometry

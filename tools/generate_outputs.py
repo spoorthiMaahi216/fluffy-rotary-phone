@@ -424,8 +424,8 @@ def build_25_questions_text() -> str:
 			difficulty='moderate',
 			order=19,
 			options=['18', '20', '22', '24', '26'],
-			answer='22',
-			explanation='Sum the horizontal runs: 6 + 8 + 10 − two vertical offsets (2 each) = 22 cm, matching the diagram’s horizontal alignments.',
+			answer='20',
+			explanation='Subtract the two 2 cm square spans from the total: 6 + 8 + 10 − 2 − 2 = 20 cm.',
 			subject='Quantitative Math', unit='Geometry and Measurement', topic='Coordinate Geometry'
 		))
 
@@ -767,10 +767,10 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 
 	# Q19 with image
 	q19_img = 'https://cdn.mathpix.com/cropped/2025_07_31_dc2e3d22c70b1617b86dg-04.jpg?height=275&width=673&top_left_y=1380&top_left_x=1241'
-	B(title='Sum of Segments with Squares', description='Use given segment lengths and square sides to find a total length.',
-		question='The figure shown consists of three segments and two squares. Each square has side length 2 cm, and AB=6 cm, CD=8 cm, EF=10 cm. What is the length of n (in cm)?', instruction='Sum the lengths as indicated by the diagram.', difficulty='moderate', order=19,
-		options=['18', '20', '22', '24', '26'], answer='24',
-		explanation='Adding the given aligned segments yields n = 24 cm.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Perimeter',
+	B(title='Sum of Horizontal Segments', description='Use only horizontal contributions to find n as a horizontal length.',
+		question='The figure shown consists of three segments and two squares. Each square has side length 2 cm, and AB=6 cm, CD=8 cm, EF=10 cm. What is the length of n (in cm)?', instruction='Account only for horizontal projections; vertical segments do not contribute to n.', difficulty='moderate', order=19,
+		options=['18', '20', '22', '24', '26'], answer='20',
+		explanation='Subtract the two 2 cm square spans from the total: 6 + 8 + 10 − 2 − 2 = 20 cm.', subject='Quantitative Math', unit='Geometry and Measurement', topic='Coordinate Geometry',
 		question_image_urls=[q19_img], option_image_urls={})
 
 	# Q20
