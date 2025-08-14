@@ -305,7 +305,7 @@ $\frac{3}{8}=0.375=37.5\%$, closest to 37%.
 @title Shaded Fraction of a Rectangle
 @description Find the shaded portion when a rectangle is partitioned into congruent squares.
 
-@question The rectangle is divided into 6 congruent squares. What fraction of the rectangle is shaded? (See image URL in the prompt.)
+@question The rectangle shown is divided into 6 congruent squares. What fraction of the rectangle is shaded?
 @instruction Count shaded squares out of total.
 @difficulty easy
 @Order 17
@@ -343,7 +343,7 @@ If $3\tfrac{1}{2}$ of 6 equal squares are shaded, that is $\frac{3.5}{6}=\frac{7
 @title Sum of Horizontal Segments
 @description Use only horizontal contributions to find n as a horizontal length.
 
-@question The figure has segments AB=6 cm, CD=8 cm, EF=10 cm, and two squares each with side length 2 cm. What is the length n (in cm)? (See image URL in the prompt.)
+@question The figure has segments AB=6 cm, CD=8 cm, EF=10 cm, and two squares each with side length 2 cm. What is the length of n (in cm)? (See image URL in the prompt.)
 @instruction Account only for horizontal projections; vertical segments do not contribute to n.
 @difficulty moderate
 @Order 19
@@ -419,7 +419,7 @@ For $n=2k$, $\frac{3n}{2}=3k$ is always an integer; the others are not guarantee
 @title Reading Fractions of a Book
 @description Track remaining pages after fractional reading over two days.
 
-@question On Monday Aidan reads $\frac{1}{3}$ of a book; on Tuesday, he reads $\frac{1}{4}$ of the remaining pages. To finish, he must read an additional 60 pages. How many pages are in the book?
+@question On Monday Aidan reads $\frac{1}{3}$ of a book; on Tuesday, $\frac{1}{4}$ of the remaining pages. To finish, 90 pages are left. How many pages are in the book?
 @instruction Compute remaining after each day and set equal to 60.
 @difficulty moderate
 @Order 23

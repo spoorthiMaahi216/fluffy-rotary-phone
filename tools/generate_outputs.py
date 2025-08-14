@@ -711,7 +711,7 @@ def build_25_questions_text() -> str:
 	add(render_question_block(
 			title='Shaded Fraction of a Rectangle',
 			description='Find the shaded portion when a rectangle is partitioned into congruent squares.',
-			question='The rectangle is divided into 6 congruent squares. What fraction of the rectangle is shaded? (See image URL in the prompt.)',
+			question='The rectangle shown is divided into 6 congruent squares. What fraction of the rectangle is shaded?',
 			instruction='Count shaded squares out of total.',
 			difficulty='easy',
 			order=17,
@@ -739,7 +739,7 @@ def build_25_questions_text() -> str:
 	add(render_question_block(
 			title='Sum of Horizontal Segments',
 			description='Use only horizontal contributions to find n as a horizontal length.',
-			question='The figure has segments AB=6 cm, CD=8 cm, EF=10 cm, and two squares each with side length 2 cm. What is the length n (in cm)? (See image URL in the prompt.)',
+			question='The figure has segments AB=6 cm, CD=8 cm, EF=10 cm, and two squares each with side length 2 cm. What is the length of n (in cm)? (See image URL in the prompt.)',
 			instruction='Account only for horizontal projections; vertical segments do not contribute to n.',
 			difficulty='moderate',
 			order=19,
@@ -795,7 +795,7 @@ def build_25_questions_text() -> str:
 	add(render_question_block(
 		title='Reading Fractions of a Book',
 		description='Track remaining pages after fractional reading over two days.',
-		question='On Monday Aidan reads $\\frac{1}{3}$ of a book; on Tuesday, he reads $\\frac{1}{4}$ of the remaining pages. To finish, he must read an additional 60 pages. How many pages are in the book?',
+		question='On Monday Aidan reads $\\frac{1}{3}$ of a book; on Tuesday, $\\frac{1}{4}$ of the remaining pages. To finish, 90 pages are left. How many pages are in the book?',
 		instruction='Compute remaining after each day and set equal to 60.',
 		difficulty='moderate',
 		order=23,
@@ -877,6 +877,8 @@ def main() -> None:
 	# Shadow questions (text + docx)
 	(OUTPUT_DIR / 'assessment_25_shadow_questions.txt').write_text(build_25_shadow_questions_text(), encoding='utf-8')
 	write_shadow_questions_docx(OUTPUT_DIR / 'Assessment_25_Shadow_Questions.docx')
+	# Shadow questions with images
+	write_shadow_questions_docx_with_images(OUTPUT_DIR / 'Assessment_25_Shadow_Questions_With_Images.docx')
 	print('Generated files:')
 	print(f" - {OUTPUT_DIR / 'Assessment_New_Questions.docx'}")
 	print(f" - {OUTPUT_DIR / 'new_questions.txt'}")
@@ -884,6 +886,7 @@ def main() -> None:
 	print(f" - {OUTPUT_DIR / 'Assessment_25_Questions_With_Images.docx'}")
 	print(f" - {OUTPUT_DIR / 'assessment_25_shadow_questions.txt'}")
 	print(f" - {OUTPUT_DIR / 'Assessment_25_Shadow_Questions.docx'}")
+	print(f" - {OUTPUT_DIR / 'Assessment_25_Shadow_Questions_With_Images.docx'}")
 
 
 # ---------------- Additional functions for 25-question DOCX with images ----------------
@@ -1042,7 +1045,7 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 
 	# Q12 (no image; could be a table in doc, but keep plain)
 	B(title='Counting Uniform Combinations', description='Count combinations from shirts and pants options.',
-		question='Each student wears 1 shirt and 1 pair of pants. Shirt colors: Tan, Red, White, Yellow. Pants colors: Black, Khaki, Navy. How many different uniforms are possible?', instruction='Multiply the number of shirt choices by pant choices.', difficulty='easy', order=12,
+		question='Each uniform has 1 shirt and 1 pair of pants. Shirt colors: Tan, Red, White, Yellow. Pants colors: Black, Khaki, Navy. How many different uniforms are possible?', instruction='Multiply the number of shirt choices by pant choices.', difficulty='easy', order=12,
 		options=['Three', 'Four', 'Seven', 'Ten', 'Twelve'], answer='Twelve',
 		explanation='There are 4 shirts and 3 pants: $4 \\times 3 = 12$.', subject='Quantitative Math', unit='Data Analysis & Probability', topic='Counting & Arrangement Problems',
 		question_image_urls=[], option_image_urls={})
@@ -1093,7 +1096,8 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 		instruction='Find copper per gold, then scale.',
 		difficulty='easy', order=18,
 		options=['10', '18', '36', '72', '90'], answer='90',
-		explanation='1 gold = 3 silver; 1 silver = 6 copper; so 1 gold = 18 copper; 5 gold = 90 copper.', subject='Quantitative Math', unit='Numbers and Operations', topic='Rational Numbers',
+		explanation='1 gold = 3 silver; 1 silver = 6 copper; so 1 gold = 18 copper; 5 gold = 90 copper.',
+		subject='Quantitative Math', unit='Numbers and Operations', topic='Rational Numbers',
 		question_image_urls=[], option_image_urls={})
 
 	# Q19 with image
@@ -1135,8 +1139,8 @@ def build_25_blocks_with_images() -> List[Dict[str, object]]:
 
 	# Q23
 	B(title='Reading Fractions of a Book', description='Track remaining pages after fractional reading over two days.',
-		question='On Monday Aidan reads $\\frac{1}{3}$ of a book; on Tuesday, $\\frac{1}{4}$ of the remaining pages. To finish, 90 pages are left. How many pages are in the book?',
-		instruction='Compute the fraction remaining after each day and set to 90.',
+		question='On Monday Aidan reads $\\frac{1}{3}$ of a book; on Tuesday, $\\frac{1}{4}$ of the remaining pages. To finish, he must read an additional 60 pages. How many pages are in the book?',
+		instruction='Compute remaining after each day and set equal to 60.',
 		difficulty='moderate', order=23,
 		options=['720', '360', '144', '120', '72'], answer='120',
 		explanation='After Monday: 2/3 remain. Tuesday reads 1/4 of that (1/6 of whole), so 1/2 remains. 1/2 of the book = 60 pages, so total = 120.', subject='Quantitative Math', unit='Reasoning', topic='Word Problems',
@@ -1191,6 +1195,576 @@ def write_25_questions_docx(path: Path) -> None:
 				local_png = download_image_as_png(str(opt_imgs[opt]), img_dir)
 				if local_png and local_png.exists() and local_png.stat().st_size > 0:
 					doc.add_picture(str(local_png), width=Inches(1.6))
+		# Explanation and taxonomy
+		doc.add_paragraph("@explanation")
+		doc.add_paragraph(str(b['explanation']))
+		doc.add_paragraph(f"@subject {b['subject']}")
+		doc.add_paragraph(f"@unit {b['unit']}")
+		doc.add_paragraph(f"@topic {b['topic']}")
+		doc.add_paragraph("@plusmarks 1")
+		doc.add_paragraph("")
+		doc.add_paragraph("---")
+		doc.add_paragraph("")
+	doc.save(path)
+
+
+# ---------------- Shadow images and writer ----------------
+def draw_shape(ax, shape: str, center=(0, 0), size=1.0, color='#333') -> None:
+	import matplotlib.patches as patches
+	x, y = center
+	if shape == 'circle':
+		patch = patches.Circle((x, y), radius=size * 0.5, fill=False, linewidth=2, edgecolor=color)
+		ax.add_patch(patch)
+	elif shape == 'square':
+		patch = patches.Rectangle((x - size * 0.5, y - size * 0.5), size, size, fill=False, linewidth=2, edgecolor=color)
+		ax.add_patch(patch)
+	elif shape == 'triangle':
+		pts = [(x, y + size * 0.6), (x - size * 0.6, y - size * 0.6), (x + size * 0.6, y - size * 0.6)]
+		patch = patches.Polygon(pts, closed=True, fill=False, linewidth=2, edgecolor=color)
+		ax.add_patch(patch)
+	elif shape == 'star':
+		# simple 5-point star
+		import numpy as np
+		angles = np.linspace(0, 2 * np.pi, 6)[:-1]
+		outer = [(x + size * 0.6 * np.cos(a), y + size * 0.6 * np.sin(a)) for a in angles]
+		inner = [(x + size * 0.25 * np.cos(a + np.pi / 5), y + size * 0.25 * np.sin(a + np.pi / 5)) for a in angles]
+		pts = []
+		for i in range(5):
+			pts.append(outer[i])
+			pts.append(inner[i])
+		patch = patches.Polygon(pts, closed=True, fill=False, linewidth=2, edgecolor=color)
+		ax.add_patch(patch)
+
+
+def save_sequence_composite_shadow(path: Path) -> None:
+	fig, ax = plt.subplots(figsize=(5, 1.2))
+	shapes = ['circle', 'square', 'triangle', 'star']
+	for i in range(8):
+		shape = shapes[i % len(shapes)]
+		draw_shape(ax, shape, center=(i * 1.2, 0), size=0.8)
+	ax.axis('off')
+	ax.set_xlim(-1, 1.2 * 8)
+	ax.set_ylim(-1, 1)
+	fig.tight_layout()
+	fig.savefig(path, dpi=200, bbox_inches='tight')
+	plt.close(fig)
+
+
+def save_shape_icon_shadow(path: Path, shape: str) -> None:
+	fig, ax = plt.subplots(figsize=(1.2, 1.2))
+	draw_shape(ax, shape, center=(0, 0), size=1.2)
+	ax.axis('off')
+	fig.tight_layout()
+	fig.savefig(path, dpi=200, bbox_inches='tight')
+	plt.close(fig)
+
+
+def save_altitude_graph_shadow(path: Path, times, alts) -> None:
+	fig, ax = plt.subplots(figsize=(4.5, 2.8))
+	ax.plot(times, alts, marker='o')
+	ax.set_xlabel('Time (h)')
+	ax.set_ylabel('Altitude (m)')
+	ax.set_title("Hiker's Altitude")
+	fig.tight_layout()
+	fig.savefig(path, dpi=200, bbox_inches='tight')
+	plt.close(fig)
+
+
+def save_midpoint_diagram_shadow(path: Path, st_len: int) -> None:
+	fig, ax = plt.subplots(figsize=(5, 1))
+	# Draw line RV with points R - S - T - V
+	R_x = 0
+	ST = st_len
+	RT = 2 * ST
+	RV = 2 * RT
+	S_x = RT / 2
+	T_x = RT
+	V_x = RV
+	ax.hlines(0, R_x, V_x, colors='k', linewidth=2)
+	for x, label in [(R_x, 'R'), (S_x, 'S'), (T_x, 'T'), (V_x, 'V')]:
+		ax.plot([x], [0], 'ko')
+		ax.text(x, 0.15, label, ha='center')
+	ax.text((S_x + T_x) / 2, -0.2, f'ST={ST}', ha='center')
+	ax.axis('off')
+	fig.tight_layout()
+	fig.savefig(path, dpi=200, bbox_inches='tight')
+	plt.close(fig)
+
+
+def save_rectangle_shading_shadow(path: Path, cols: int, rows: int, shaded_count: float) -> None:
+	fig, ax = plt.subplots(figsize=(4, 2))
+	# Draw grid
+	for i in range(cols + 1):
+		ax.plot([i, i], [0, rows], 'k-', linewidth=1)
+	for j in range(rows + 1):
+		ax.plot([0, cols], [j, j], 'k-', linewidth=1)
+	# Shade cells left to right, top to bottom
+	import math
+	full = int(math.floor(shaded_count))
+	frac = shaded_count - full
+	ci = 0
+	for idx in range(full):
+		c = idx % cols
+		r = rows - 1 - (idx // cols)
+		rect = plt.Rectangle((c, r), 1, 1, color='#cce5ff')
+		ax.add_patch(rect)
+	ci = full
+	if frac > 0:
+		c = ci % cols
+		r = rows - 1 - (ci // cols)
+		rect = plt.Rectangle((c, r), frac, 1, color='#cce5ff')
+		ax.add_patch(rect)
+	ax.set_xlim(0, cols)
+	ax.set_ylim(0, rows)
+	ax.set_aspect('equal')
+	ax.axis('off')
+	fig.tight_layout()
+	fig.savefig(path, dpi=200, bbox_inches='tight')
+	plt.close(fig)
+
+
+def save_segments_with_squares_shadow(path: Path, ab: int, cd: int, ef: int, sq: int) -> None:
+	fig, ax = plt.subplots(figsize=(6, 1.2))
+	x = 0
+	ax.hlines(0, x, x + ab, colors='k', linewidth=3)
+	ax.text(x + ab / 2, 0.15, f'AB={ab}', ha='center')
+	x += ab
+	# square
+	ax.add_patch(plt.Rectangle((x, -0.5), sq, 1, fill=False, linewidth=2))
+	ax.text(x + sq / 2, -0.7, f'{sq}', ha='center')
+	x += sq
+	ax.hlines(0, x, x + cd, colors='k', linewidth=3)
+	ax.text(x + cd / 2, 0.15, f'CD={cd}', ha='center')
+	x += cd
+	# square
+	ax.add_patch(plt.Rectangle((x, -0.5), sq, 1, fill=False, linewidth=2))
+	ax.text(x + sq / 2, -0.7, f'{sq}', ha='center')
+	x += sq
+	ax.hlines(0, x, x + ef, colors='k', linewidth=3)
+	ax.text(x + ef / 2, 0.15, f'EF={ef}', ha='center')
+	ax.axis('off')
+	fig.tight_layout()
+	fig.savefig(path, dpi=200, bbox_inches='tight')
+	plt.close(fig)
+
+
+def save_card_holes_shadow(path: Path) -> None:
+	fig, ax = plt.subplots(figsize=(2.5, 2.5))
+	# square card
+	ax.add_patch(plt.Rectangle((-1, -1), 2, 2, fill=False, linewidth=2))
+	# holes
+	ax.add_patch(plt.Circle((-0.5, 0.4), 0.1, color='k'))
+	ax.add_patch(plt.Circle((0.6, -0.2), 0.1, color='k'))
+	ax.set_xlim(-1.2, 1.2)
+	ax.set_ylim(-1.2, 1.2)
+	ax.set_aspect('equal')
+	ax.axis('off')
+	fig.tight_layout()
+	fig.savefig(path, dpi=200, bbox_inches='tight')
+	plt.close(fig)
+
+
+def build_25_shadow_blocks_with_images() -> List[Dict[str, object]]:
+	blocks: List[Dict[str, object]] = []
+	add = blocks.append
+	shadow_dir = IMAGES_DIR / 'shadow'
+	shadow_dir.mkdir(parents=True, exist_ok=True)
+	
+	# Q1 - no image
+	add({
+		'title': 'Solve Linear Equation (One-Step)',
+		'description': 'Solve for n in a simple linear equation.',
+		'question': 'If $n+7=12$, what is the value of $n$?',
+		'instruction': 'Select the correct value of n.',
+		'difficulty': 'easy', 'order': 1,
+		'options': ['2', '4', '5', '7', '12'], 'answer': '5',
+		'explanation': 'Subtract 7 from both sides: $n = 12-7 = 5$.',
+		'subject': 'Quantitative Math', 'unit': 'Algebra', 'topic': 'Interpreting Variables',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q2 - sequence with images
+	seq_img = shadow_dir / 'shadow_q2_sequence.png'
+	save_sequence_composite_shadow(seq_img)
+	opt_map = {
+		'Circle': shadow_dir / 'shadow_q2_opt_circle.png',
+		'Square': shadow_dir / 'shadow_q2_opt_square.png',
+		'Triangle': shadow_dir / 'shadow_q2_opt_triangle.png',
+		'Star': shadow_dir / 'shadow_q2_opt_star.png',
+		'Hexagon': shadow_dir / 'shadow_q2_opt_hex.png',
+	}
+	# generate four; hexagon as text only
+	save_shape_icon_shadow(opt_map['Circle'], 'circle')
+	save_shape_icon_shadow(opt_map['Square'], 'square')
+	save_shape_icon_shadow(opt_map['Triangle'], 'triangle')
+	save_shape_icon_shadow(opt_map['Star'], 'star')
+	add({
+		'title': 'Repeating Symbol Sequence',
+		'description': 'Identify a term in a repeating sequence using modular arithmetic.',
+		'question': 'A sequence repeats the symbols in order: Circle, Square, Triangle, Star. Which is the 12th symbol?',
+		'instruction': 'Determine the cycle length and reduce the index modulo the cycle length.',
+		'difficulty': 'moderate', 'order': 2,
+		'options': ['Circle', 'Square', 'Triangle', 'Star', 'Hexagon'], 'answer': 'Star',
+		'explanation': 'Cycle length is 4. 12 mod 4 = 0, so the 12th is the 4th in the cycle: Star.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Sequences & Series',
+		'question_image_paths': [seq_img], 'option_image_paths': {k: v for k, v in opt_map.items() if k != 'Hexagon'}
+	})
+	
+	# Q3 - no image
+	add({
+		'title': 'Expression for Total Items',
+		'description': 'Translate a word scenario into an algebraic expression.',
+		'question': 'A jar contains 15 marbles. You add $y$ more marbles. Which expression represents the total number of marbles?',
+		'instruction': 'Choose the expression that models the situation.',
+		'difficulty': 'easy', 'order': 3,
+		'options': ['$15-y$', '$15y$', '$\\frac{15}{y}$', '$y-15$', '$15+y$'], 'answer': '$15+y$',
+		'explanation': 'Start with 15 and add y new marbles: $15 + y$.',
+		'subject': 'Quantitative Math', 'unit': 'Algebra', 'topic': 'Interpreting Variables',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q4 - no image
+	add({
+		'title': 'Place Value and Inequality',
+		'description': 'Find the greatest digit for a number to stay below a bound.',
+		'question': 'In the number $5,\\square 42$, $\\square$ is a digit 0–9. If the number is less than 5,242, what is the greatest possible value for $\\square$?',
+		'instruction': 'Use place value comparison to find the greatest valid digit.',
+		'difficulty': 'easy', 'order': 4,
+		'options': ['0', '1', '2', '4', '9'], 'answer': '1',
+		'explanation': 'Compare hundreds place with 2 in 5,242: the greatest hundreds digit to keep it smaller is 1.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Computation with Whole Numbers',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q5 - no image
+	add({
+		'title': 'Adding Fractions',
+		'description': 'Add two fractions with unlike denominators.',
+		'question': 'Which of the following is the sum of $\\frac{5}{12}$ and $\\frac{1}{3}$?',
+		'instruction': 'Compute using a common denominator.',
+		'difficulty': 'easy', 'order': 5,
+		'options': ['$\\frac{1}{4}$', '$\\frac{2}{3}$', '$\\frac{3}{4}$', '$\\frac{5}{6}$', '$\\frac{7}{12}$'], 'answer': '$\\frac{3}{4}$',
+		'explanation': '$\\frac{5}{12}+\\frac{1}{3}=\\frac{5}{12}+\\frac{4}{12}=\\frac{9}{12}=\\frac{3}{4}$.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Fractions, Decimals, & Percents',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q6 - altitude graph image
+	alt_img = shadow_dir / 'shadow_q6_altitude.png'
+	save_altitude_graph_shadow(alt_img, times=[0, 1, 2, 3, 4], alts=[120, 180, 250, 300, 420])
+	add({
+		'title': 'Altitude Difference from a Graph (Conceptual)',
+		'description': 'Read altitude change from start and finish.',
+		'question': 'A hiker starts at 120 meters and ends at 420 meters after a steady climb. How many meters higher is the end than the start?',
+		'instruction': 'Compute final altitude minus initial altitude.',
+		'difficulty': 'easy', 'order': 6,
+		'options': ['120', '240', '300', '320', '540'], 'answer': '300',
+		'explanation': '420 − 120 = 300 meters.',
+		'subject': 'Quantitative Math', 'unit': 'Data Analysis & Probability', 'topic': 'Interpretation of Tables & Graphs',
+		'question_image_paths': [alt_img], 'option_image_paths': {}
+	})
+	
+	# Q7 - no image
+	add({
+		'title': 'Multiply Decimals',
+		'description': 'Evaluate a product of decimals.',
+		'question': 'What is the value of $0.25 \\times 18 \\times 0.4$?',
+		'instruction': 'Use associativity to simplify.',
+		'difficulty': 'easy', 'order': 7,
+		'options': ['0.18', '1.8', '18', '180', '0.72'], 'answer': '1.8',
+		'explanation': '$0.25 \\times 0.4 = 0.1$ and $0.1 \\times 18 = 1.8$.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Fractions, Decimals, & Percents',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q8 - no image
+	add({
+		'title': 'Minimize Coins for a Total',
+		'description': 'Find the least number of coins to make a given amount.',
+		'question': 'There are ten of each coin: 1¢, 5¢, 10¢, and 25¢. If you need exactly 47¢, what is the least number of coins required?',
+		'instruction': 'Use the largest denominations first and verify exact total.',
+		'difficulty': 'moderate', 'order': 8,
+		'options': ['Three', 'Four', 'Five', 'Six', 'Seven'], 'answer': 'Five',
+		'explanation': '47 = 25 + 10 + 10 + 1 + 1 uses five coins; four coins cannot make 47.',
+		'subject': 'Quantitative Math', 'unit': 'Reasoning', 'topic': 'Word Problems',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q9 - no image
+	add({
+		'title': 'Multiply Fractions then Halve',
+		'description': 'Evaluate a nested fractional expression.',
+		'question': 'What is the value of $\\frac{1}{2}\\left(\\frac{2}{3} \\times \\frac{3}{4}\\right)$?',
+		'instruction': 'Multiply inside the parentheses first.',
+		'difficulty': 'easy', 'order': 9,
+		'options': ['$\\frac{1}{4}$', '$\\frac{1}{3}$', '$\\frac{3}{8}$', '$\\frac{5}{12}$', '$\\frac{7}{24}$'], 'answer': '$\\frac{1}{4}$',
+		'explanation': '$\\frac{2}{3} \\times \\frac{3}{4} = \\frac{1}{2}$; then half gives $\\frac{1}{4}$.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Fractions, Decimals, & Percents',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q10 - midpoint diagram image
+	mid_img = shadow_dir / 'shadow_q10_mid.png'
+	save_midpoint_diagram_shadow(mid_img, st_len=10)
+	add({
+		'title': 'Midpoints on a Line Segment',
+		'description': 'Use midpoint relations to compute a segment length.',
+		'question': 'Segment $\\overline{ST}$ has length 10, $T$ is the midpoint of $\\overline{RV}$, and $S$ is the midpoint of $\\overline{RT}$. What is the length of $\\overline{SV}$?',
+		'instruction': 'Express RV in terms of ST using midpoint relations.',
+		'difficulty': 'moderate', 'order': 10,
+		'options': ['10', '20', '30', '40', '50'], 'answer': '30',
+		'explanation': 'S midpoint of RT ⇒ ST = RT/2 ⇒ RT = 20. T midpoint of RV ⇒ TV = RT = 20. So SV = ST + TV = 10 + 20 = 30.',
+		'subject': 'Quantitative Math', 'unit': 'Geometry and Measurement', 'topic': 'Lines, Angles, & Triangles',
+		'question_image_paths': [mid_img], 'option_image_paths': {}
+	})
+	
+	# Q11 - no image
+	add({
+		'title': 'Solve Whole-Number Identity',
+		'description': 'Solve for a whole number that satisfies a simple quadratic identity.',
+		'question': 'Let $a$ be defined by $a=a^{2}-a$, where $a$ is a whole number and $a\\neq 0$. What is the value of $3a$?',
+		'instruction': 'Solve for a, then compute 3a.',
+		'difficulty': 'easy', 'order': 11,
+		'options': ['4', '5', '6', '7', '8'], 'answer': '6',
+		'explanation': '$a=a^{2}-a \\Rightarrow a^{2}-2a=0 \\Rightarrow a(a-2)=0$. With $a\\neq 0$, $a=2$, so $3a=6$.',
+		'subject': 'Quantitative Math', 'unit': 'Algebra', 'topic': 'Interpreting Variables',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q12 - table (shirt/pants)
+	add({
+		'title': 'Counting Uniform Combinations',
+		'description': 'Count combinations from shirts and pants options.',
+		'question': 'A uniform has 1 shirt and 1 pair of pants. If there are 5 shirt colors and 2 pants colors, how many different uniforms are possible?',
+		'instruction': 'Multiply the number of shirt choices by pant choices.',
+		'difficulty': 'easy', 'order': 12,
+		'options': ['6', '8', '10', '12', '15'], 'answer': '10',
+		'explanation': 'There are 5 shirts and 2 pants: $5 \\times 2 = 10$.',
+		'subject': 'Quantitative Math', 'unit': 'Data Analysis & Probability', 'topic': 'Counting & Arrangement Problems',
+		'table_rows': [
+			['Shirt Color', 'Pants Color'],
+			['Blue', 'Black'],
+			['Green', 'Khaki'],
+			['White', 'Navy'],
+			['Red', ' '],
+			['Yellow', ' '],
+		]
+	})
+	
+	# Q13 - no image
+	add({
+		'title': 'Parity Reasoning',
+		'description': 'Determine which expression yields an odd integer for even n.',
+		'question': 'If $n$ is an even integer, which of the following must be an odd integer?',
+		'instruction': 'Analyze parity for each expression.',
+		'difficulty': 'easy', 'order': 13,
+		'options': ['$n$', '$n+1$', '$2n$', '$3n$', '$n+2$'], 'answer': '$n+1$',
+		'explanation': 'If $n$ is even, then $n+1$ is odd.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Basic Number Theory',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q14 - no image
+	add({
+		'title': 'Direct Proportion: Miles per Dollar',
+		'description': 'Use proportional reasoning to scale miles by fuel cost.',
+		'question': 'A car travels 180 miles on $\\$30 of gas. At the same rate, how many miles on $\\$45?',
+		'instruction': 'Use miles per dollar to scale linearly.',
+		'difficulty': 'easy', 'order': 14,
+		'options': ['225', '240', '255', '270', '300'], 'answer': '270',
+		'explanation': '$180/30 = 6$ miles per dollar; $6 \\times 45 = 270$.',
+		'subject': 'Quantitative Math', 'unit': 'Reasoning', 'topic': 'Word Problems',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q15 - no image
+	add({
+		'title': 'Closest Fraction to a Percentage',
+		'description': 'Compare fractions to 62%.',
+		'question': 'Which fraction is closest to $62\\%$?',
+		'instruction': 'Convert fractions to percents or compare decimals.',
+		'difficulty': 'moderate', 'order': 15,
+		'options': ['$\\frac{1}{2}$', '$\\frac{3}{5}$', '$\\frac{5}{8}$', '$\\frac{2}{3}$', '$\\frac{7}{10}$'], 'answer': '$\\frac{5}{8}$',
+		'explanation': '$\\frac{5}{8}=0.625=62.5\\%$, closest to 62%.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Fractions, Decimals, & Percents',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q16 - no image
+	add({
+		'title': 'Balanced Club Sizes',
+		'description': 'Distribute students into clubs with max difference 1.',
+		'question': 'There are 84 students forming 5 clubs. Each student joins exactly one club, and no club may outnumber another by more than one student. What is the least possible number of students in one club?',
+		'instruction': 'Distribute as evenly as possible.',
+		'difficulty': 'moderate', 'order': 16,
+		'options': ['15', '16', '17', '18', '19'], 'answer': '16',
+		'explanation': '84 divided as evenly as possible into 5 gives sizes 17, 17, 17, 16, 17; the least is 16.',
+		'subject': 'Quantitative Math', 'unit': 'Data Analysis & Probability', 'topic': 'Counting & Arrangement Problems',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q17 - rectangle shading image
+	rect_img = shadow_dir / 'shadow_q17_rect.png'
+	save_rectangle_shading_shadow(rect_img, cols=4, rows=2, shaded_count=5.5)
+	add({
+		'title': 'Shaded Fraction of a Rectangle (Variant)',
+		'description': 'Find the shaded portion count out of total.',
+		'question': 'A rectangle is divided into 8 congruent squares. If $5\\tfrac{1}{2}$ squares are shaded, what fraction of the rectangle is shaded?',
+		'instruction': 'Compute shaded total over 8 and simplify if possible.',
+		'difficulty': 'easy', 'order': 17,
+		'options': ['$\\frac{5}{8}$', '$\\frac{11}{16}$', '$\\frac{3}{4}$', '$\\frac{7}{12}$', '$\\frac{2}{3}$'], 'answer': '$\\frac{11}{16}$',
+		'explanation': '$5.5/8 = 11/16$.',
+		'subject': 'Quantitative Math', 'unit': 'Geometry and Measurement', 'topic': 'Area & Volume',
+		'question_image_paths': [rect_img], 'option_image_paths': {}
+	})
+	
+	# Q18 - no image
+	add({
+		'title': 'Currency Exchange Chains',
+		'description': 'Convert gold to copper through given exchange rates.',
+		'question': 'In a game, 1 gold piece may be exchanged for 4 silver pieces, and 3 silver pieces may be exchanged for 18 copper pieces. How many copper pieces for 5 gold pieces?',
+		'instruction': 'Find copper per gold, then scale.',
+		'difficulty': 'easy', 'order': 18,
+		'options': ['60', '90', '100', '120', '150'], 'answer': '120',
+		'explanation': '1 silver = 6 copper; 1 gold = 4 silver = 24 copper; 5 gold = 120 copper.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Rational Numbers',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q19 - segments with squares image
+	seg_img = shadow_dir / 'shadow_q19_segments.png'
+	save_segments_with_squares_shadow(seg_img, ab=5, cd=9, ef=7, sq=3)
+	add({
+		'title': 'Sum of Horizontal Segments (Variant)',
+		'description': 'Use only horizontal contributions to find n as a horizontal length.',
+		'question': 'The figure shows AB=5 cm, CD=9 cm, EF=7 cm with two squares of side 3 cm placed between the segments. What is the horizontal length n?',
+		'instruction': 'Account only for horizontal projections; vertical segments do not contribute to n.',
+		'difficulty': 'moderate', 'order': 19,
+		'options': ['13', '14', '15', '16', '17'], 'answer': '15',
+		'explanation': 'n = 5 + 9 + 7 − 3 − 3 = 15 cm.',
+		'subject': 'Quantitative Math', 'unit': 'Geometry and Measurement', 'topic': 'Coordinate Geometry',
+		'question_image_paths': [seg_img], 'option_image_paths': {}
+	})
+	
+	# Q20 - no image
+	add({
+		'title': 'Order of Operations',
+		'description': 'Evaluate an expression with exponents, multiplication/division, and addition.',
+		'question': 'Calculate: $2+8 \\times 3^{2} \\div 4+5^{2}$',
+		'instruction': 'Apply exponents first, then multiplication/division from left to right, then addition.',
+		'difficulty': 'easy', 'order': 20,
+		'options': ['35', '39', '41', '45', '49'], 'answer': '45',
+		'explanation': '$3^{2}=9; 8\\times9=72; 72\\div4=18; 2+18+25=45$.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Order of Operations',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q21 - card holes image
+	card_img = shadow_dir / 'shadow_q21_card.png'
+	save_card_holes_shadow(card_img)
+	add({
+		'title': 'Face-Down Flip Concept',
+		'description': 'Understand difference between rotations and mirror reflections.',
+		'question': 'After turning a card face down, which of the following cannot be obtained by rotation alone from the original face-up orientation?',
+		'instruction': 'Recall that a face-down flip produces a mirror image.',
+		'difficulty': 'hard', 'order': 21,
+		'options': ['90° rotation', '180° rotation', 'Vertical mirror image', '270° rotation', '0° (no change)'], 'answer': 'Vertical mirror image',
+		'explanation': 'Mirror images cannot be produced by rotations alone.',
+		'subject': 'Quantitative Math', 'unit': 'Geometry and Measurement', 'topic': 'Transformations (Dilating a shape)',
+		'question_image_paths': [card_img], 'option_image_paths': {}
+	})
+	
+	# Q22 - no image
+	add({
+		'title': 'Integer Conditions with Odd n',
+		'description': 'Decide which expression is always an integer for odd n.',
+		'question': 'If a number $n$ is odd, which of the following expressions must be an integer?',
+		'instruction': 'Let $n=2k+1$ and test each expression.',
+		'difficulty': 'easy', 'order': 22,
+		'options': ['$\\frac{n}{2}$', '$\\frac{n+1}{2}$', '$\\frac{3n}{4}$', '$\\frac{n+3}{4}$', '$\\frac{n+2}{3}$'], 'answer': '$\\frac{n+1}{2}$',
+		'explanation': 'For $n=2k+1$, $\\frac{n+1}{2}=k+1$ is always an integer.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Basic Number Theory',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q23 - no image
+	add({
+		'title': 'Reading Fractions of a Book (Variant)',
+		'description': 'Track remaining pages after fractional reading over two days.',
+		'question': 'On Monday, a reader completes $\\frac{1}{4}$ of a book; on Tuesday, $\\frac{1}{3}$ of the remaining pages. To finish, 90 pages are left. How many pages are in the book?',
+		'instruction': 'Compute the fraction remaining after each day and set to 90.',
+		'difficulty': 'moderate', 'order': 23,
+		'options': ['120', '150', '180', '240', '360'], 'answer': '180',
+		'explanation': 'After Monday: 3/4 remain. Tuesday reads 1/3 of that ⇒ 2/3 remain of 3/4 ⇒ 1/2 of the book. 1/2 = 90 ⇒ total 180.',
+		'subject': 'Quantitative Math', 'unit': 'Reasoning', 'topic': 'Word Problems',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q24 - no image
+	add({
+		'title': 'Circumference of Inscribed Circle',
+		'description': 'Compute circumference from a square’s area.',
+		'question': 'A square has area 196 in^2. What is the circumference of the largest circle cut from it?',
+		'instruction': 'Diameter equals square side length.',
+		'difficulty': 'easy', 'order': 24,
+		'options': ['$14\\pi$', '$28\\pi$', '$42\\pi$', '$56\\pi$', '$196\\pi$'], 'answer': '$14\\pi$',
+		'explanation': 'Side = $\\sqrt{196}=14$, so circumference = $\\pi d = 14\\pi$.',
+		'subject': 'Quantitative Math', 'unit': 'Geometry and Measurement', 'topic': 'Circles (Area, circumference)',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	# Q25 - no image
+	add({
+		'title': 'Successive Percent Changes',
+		'description': 'Apply percentage increase then decrease.',
+		'question': 'The number 150 is increased by 20%, then decreased by 25% to give x. What is x?',
+		'instruction': 'Compute step by step.',
+		'difficulty': 'easy', 'order': 25,
+		'options': ['110', '115', '120', '130', '135'], 'answer': '135',
+		'explanation': '150 \\to 180 (increase 20%), then 180 \\times 0.75 = 135.',
+		'subject': 'Quantitative Math', 'unit': 'Numbers and Operations', 'topic': 'Fractions, Decimals, & Percents',
+		'question_image_paths': [], 'option_image_paths': {}
+	})
+	
+	return blocks
+
+
+def write_shadow_questions_docx_with_images(path: Path) -> None:
+	blocks = build_25_shadow_blocks_with_images()
+	doc = Document()
+	img_dir = IMAGES_DIR / 'shadow'
+	for b in blocks:
+		# Header tags
+		doc.add_paragraph(f"@title {b['title']}")
+		doc.add_paragraph(f"@description {b['description']}")
+		doc.add_paragraph("")
+		# Question text
+		doc.add_paragraph(f"@question {b['question']}")
+		doc.add_paragraph(f"@instruction {b['instruction']}")
+		doc.add_paragraph(f"@difficulty {b['difficulty']}")
+		doc.add_paragraph(f"@Order {b['order']}")
+		# Question images
+		for p in b.get('question_image_paths', []):
+			if p and Path(p).exists() and Path(p).stat().st_size > 0:
+				doc.add_picture(str(p), width=Inches(4.5))
+		# Table if present
+		table_rows = b.get('table_rows')
+		if table_rows:
+			rows = len(table_rows)
+			cols = len(table_rows[0]) if rows > 0 else 0
+			table = doc.add_table(rows=rows, cols=cols)
+			for i, row in enumerate(table_rows):
+				for j, cell in enumerate(row):
+					table.cell(i, j).text = cell
+		# Options with images
+		opt_imgs: Dict[str, Path] = b.get('option_image_paths', {})  # label -> path
+		for opt in b['options']:
+			prefix = '@@option' if opt == b['answer'] else '@option'
+			doc.add_paragraph(f"{prefix} {opt}")
+			if opt in opt_imgs:
+				p = opt_imgs[opt]
+				if p and Path(p).exists() and Path(p).stat().st_size > 0:
+					doc.add_picture(str(p), width=Inches(1.4))
 		# Explanation and taxonomy
 		doc.add_paragraph("@explanation")
 		doc.add_paragraph(str(b['explanation']))
